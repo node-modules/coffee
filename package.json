@@ -1,0 +1,34 @@
+{
+  "name": "coffee",
+  "version": "1.0.0",
+  "description": "Test command line on nodejs",
+  "main": "index",
+  "dependencies": {
+    "debug": "~2.1.1"
+  },
+  "devDependencies": {
+    "coveralls": "2",
+    "istanbul": "0",
+    "jshint": "*",
+    "mocha": "1",
+    "should": "~4.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/popomore/coffee"
+  },
+  "homepage": "https://github.com/popomore/coffee",
+  "author": "popomore <sakura9515@gmail.com>",
+  "keywords": [
+    "test",
+    "shell",
+    "spawn",
+    "fork",
+    "child_process",
+    "exec"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "test": "make test"
+  }
+}

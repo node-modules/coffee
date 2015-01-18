@@ -1,0 +1,10 @@
+test/
+docs/
+examples/
+coverage/
+node_modules/
+.npmignore
+.editorconfig
+.travis.yml
+.jshintrc
+.jshintignore
