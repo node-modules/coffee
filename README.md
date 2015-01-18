@@ -1,17 +1,17 @@
 # Coffee
 
+Test command line on nodejs
+
+---
+
 [![NPM version](https://img.shields.io/npm/v/coffee.svg?style=flat)](https://npmjs.org/package/coffee)
 [![Build Status](https://img.shields.io/travis/popomore/coffee.svg?style=flat)](https://travis-ci.org/popomore/coffee)
 [![Build Status](https://img.shields.io/coveralls/popomore/coffee?style=flat)](https://coveralls.io/r/popomore/coffee)
 [![NPM downloads](http://img.shields.io/npm/dm/coffee.svg?style=flat)](https://npmjs.org/package/coffee)
 
-Test command line on nodejs
-
----
-
-```
 ## Install
 
+```
 $ npm install coffee -g
 ```
 
