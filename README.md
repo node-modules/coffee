@@ -23,7 +23,7 @@ Coffee is useful to test command line in Mocha or other test frammework.
 describe('cat', function() {
   it('should concat input', function(done) {
     var coffee = require('coffee');
-    coffe.spawn('cat')
+    coffee.spawn('cat')
     .write('1')
     .write('2')
     .expect('stdout', '12')
@@ -36,7 +36,7 @@ describe('cat', function() {
 You can also use fork for spawning Node processes.
 
 ```
-coffe.fork('/path/to/file.js', ['args '])
+coffee.fork('/path/to/file.js', ['args '])
 .expect('stdout', '12\n')
 .expect('stderr', '34\n')
 .expect('code', 0)
@@ -73,7 +73,7 @@ Assertion object
 Assert type with expected value, expected value can be string, regular expression, and array. 
 
 ```
-coffe.spawn('echo', ['abcdefg'])
+coffee.spawn('echo', ['abcdefg'])
 .expect('stdout', 'abcdefg')
 .expect('stdout', /^abc/)
 .expect('stdout', ['abcdefg', /abc/])
