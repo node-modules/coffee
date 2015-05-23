@@ -90,6 +90,10 @@ Write data to stdin, see example above.
 
 Callback will be called after completing the assertion, the first argument is Error if throw exception. 
 
+#### coffee.debug()
+
+Write data to process.stdout and process.stderr for debug
+
 ## LISENCE
 
 Copyright (c) 2015 popomore. Licensed under the MIT license.

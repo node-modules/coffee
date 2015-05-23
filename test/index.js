@@ -173,6 +173,6 @@ function run(type) {
 
   function call(filepath) {
     filepath += type === 'fork' ? '.js' : '.sh';
-    return coffee[type](path.join(__dirname, 'fixtures/' + filepath));
+    return coffee[type](path.join(__dirname, 'fixtures/' + filepath)).debug();
   }
 }
