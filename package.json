@@ -7,11 +7,12 @@
     "debug": "~2.1.1"
   },
   "devDependencies": {
-    "coveralls": "2",
+    "autod": "2",
+    "jshint": "2",
     "istanbul": "0",
-    "jshint": "*",
-    "mocha": "1",
-    "should": "~4.6.0"
+    "coveralls": "2",
+    "mocha": "2",
+    "should": "6"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,10 @@
   ],
   "license": "MIT",
   "scripts": {
-    "test": "make test"
+    "lint": "jshint .",
+    "test": "_mocha -R spec -t 20000",
+    "cov": "jshint . && istanbul cover node_modules/mocha/bin/_mocha -- -R spec -t 20000",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "autod": "autod -e test/fixtures -f ~ -w"
   }
 }

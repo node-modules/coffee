@@ -1,6 +1,12 @@
 language: node_js
 
 node_js:
-  - "0.10"
+  - "0.11.12"
+  - "0.11"
+  - "0.12"
+  - iojs-1
+  - iojs-2
 
-after_success: make coveralls
+script: npm run cov
+
+after_success: npm run coveralls
