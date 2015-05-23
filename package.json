@@ -1,6 +1,6 @@
 {
   "name": "coffee",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Test command line on nodejs",
   "main": "index",
   "dependencies": {
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/popomore/coffee"
+    "url": "git://github.com/popomore/coffee.git"
   },
   "homepage": "https://github.com/popomore/coffee",
   "author": "popomore <sakura9515@gmail.com>",
