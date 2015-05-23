@@ -35,5 +35,9 @@
     "cov": "jshint . && istanbul cover node_modules/mocha/bin/_mocha -- -R spec -t 20000",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "autod": "autod -e test/fixtures -f ~ -w"
-  }
+  },
+  "files": [
+    "index.js",
+    "lib"
+  ]
 }
