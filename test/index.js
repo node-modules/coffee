@@ -167,6 +167,14 @@ function run(type) {
     .end(done);
   });
 
+  it('should assert error', function(done) {
+    var cmd = path.join(__dirname, 'fixtures/unknown.sh');
+    call('unknown')
+    .expect('error', /ENOENT/)
+    .expect('error', 'spawn ' + cmd + ' ENOENT')
+    .end(done);
+  });
+
   it.skip('should receive arguments', function() {
 
   });

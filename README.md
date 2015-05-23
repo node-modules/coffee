@@ -80,7 +80,7 @@ coffee.spawn('echo', ['abcdefg'])
 .end(done);
 ```
 
-Accept type: `stdout`, `stderr`, `code`
+Accept type: `stdout`, `stderr`, `code`, `error`
 
 #### coffee.write(data)
 
