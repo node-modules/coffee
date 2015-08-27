@@ -17,7 +17,7 @@ $ npm install coffee -g
 
 ## Usage
 
-Coffee is useful to test command line in Mocha or other test frammework.
+Coffee is useful for test command line in test frammework (like Mocha).
 
 ```
 describe('cat', function() {
@@ -47,7 +47,7 @@ In file.js
 
 ```
 console.log(12);
-console.log(34);
+console.error(34);
 ```
 
 ## API
@@ -70,7 +70,7 @@ Assertion object
 
 #### coffee.expect(type, expected)
 
-Assert type with expected value, expected value can be string, regular expression, and array. 
+Assert type with expected value, expected value can be string, regular expression, and array.
 
 ```
 coffee.spawn('echo', ['abcdefg'])
@@ -88,7 +88,7 @@ Write data to stdin, see example above.
 
 #### coffee.end(callback)
 
-Callback will be called after completing the assertion, the first argument is Error if throw exception. 
+Callback will be called after completing the assertion, the first argument is Error if throw exception.
 
 #### coffee.debug()
 
