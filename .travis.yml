@@ -8,4 +8,4 @@ node_js:
 
 script: npm run cov
 
-after_success: npm run coveralls
+after_success: npm run codecov
