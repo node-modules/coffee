@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "autod": "2",
-    "jshint": "2",
+    "eslint": "0",
     "istanbul": "0",
     "codecov.io": "0",
     "mocha": "2",
@@ -30,9 +30,9 @@
   ],
   "license": "MIT",
   "scripts": {
-    "lint": "jshint .",
+    "lint": "eslint .",
     "test": "_mocha -R spec -t 20000",
-    "cov": "jshint . && istanbul cover node_modules/mocha/bin/_mocha -- -R spec -t 20000",
+    "cov": "npm run lint && istanbul cover node_modules/mocha/bin/_mocha -- -R spec -t 20000",
     "codecov": "codecov < ./coverage/lcov.info",
     "autod": "autod -e test/fixtures -f ~ -w"
   },
