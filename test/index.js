@@ -156,7 +156,7 @@ function run(type) {
 
   it('should match with Array', function(done) {
     call('stdout-stderr')
-    .expect('stdout', [/write/, /to/ ,/stdout/])
+    .expect('stdout', [/write/, /to/, /stdout/])
     .end(done);
   });
 
@@ -172,6 +172,7 @@ function run(type) {
     call('unknown')
     .expect('error', /ENOENT/)
     .expect('error', 'spawn ' + cmd + ' ENOENT')
+    .expect('error', new Error('spawn ' + cmd + ' ENOENT'))
     .end(done);
   });
 
