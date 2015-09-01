@@ -1,6 +1,6 @@
 # Coffee
 
-Test command line on nodejs
+Test command line on Node.js.
 
 ---
 
@@ -19,7 +19,7 @@ $ npm install coffee -g
 
 Coffee is useful for test command line in test frammework (like Mocha).
 
-```
+```js
 describe('cat', function() {
   it('should concat input', function(done) {
     var coffee = require('coffee');
@@ -35,7 +35,7 @@ describe('cat', function() {
 
 You can also use fork for spawning Node processes.
 
-```
+```js
 coffee.fork('/path/to/file.js', ['args '])
 .expect('stdout', '12\n')
 .expect('stderr', '34\n')
@@ -45,9 +45,35 @@ coffee.fork('/path/to/file.js', ['args '])
 
 In file.js
 
-```
+```js
 console.log(12);
 console.error(34);
+```
+
+### Fork Node process with `options.autoCoverage`
+
+If you want to run test coverage with your child process,
+Please set `options.autoCoverage = true`.
+
+```js
+coffee.fork('/path/to/file.js', ['args'], { autoCoverage: true })
+.expect('stdout', '12\n')
+.expect('stderr', '34\n')
+.expect('code', 0)
+.end(done);
+```
+
+And running test with [istanbul].
+
+```bash
+$ istanbul cover --report none --print none node_modules/mocha/bin/_mocha -- -R spec -t 5000
+$ istanbul report text-summary json lcov html
+=============================== Coverage summary ===============================
+Statements   : 98.2% ( 109/111 )
+Branches     : 97.37% ( 37/38 )
+Functions    : 100% ( 20/20 )
+Lines        : 98.18% ( 108/110 )
+================================================================================
 ```
 
 ## API
@@ -72,7 +98,7 @@ Assertion object
 
 Assert type with expected value, expected value can be string, regular expression, and array.
 
-```
+```js
 coffee.spawn('echo', ['abcdefg'])
 .expect('stdout', 'abcdefg')
 .expect('stdout', /^abc/)
@@ -97,3 +123,6 @@ Write data to process.stdout and process.stderr for debug
 ## LISENCE
 
 Copyright (c) 2015 popomore. Licensed under the MIT license.
+
+
+[istanbul]:
