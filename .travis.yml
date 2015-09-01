@@ -1,11 +1,14 @@
+sudo: false
+
 language: node_js
 
 node_js:
   - "0.11"
   - "0.12"
-  - iojs-1
-  - iojs-2
+  - "1"
+  - "2"
+  - "3"
 
 script: npm run cov
 
-after_success: npm run codecov
+after_success: npm install codecov.io && cat ./coverage/coverage-final.json | ./node_modules/codecov.io/bin/codecov.io.js

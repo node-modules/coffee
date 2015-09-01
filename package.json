@@ -2,15 +2,15 @@
   "name": "coffee",
   "version": "1.1.0",
   "description": "Test command line on nodejs",
-  "main": "index",
+  "main": "index.js",
   "dependencies": {
-    "debug": "~2.1.1"
+    "debug": "~2.2.0",
+    "childprocess": "~1.0.2"
   },
   "devDependencies": {
     "autod": "2",
-    "eslint": "0",
+    "eslint": "1",
     "istanbul": "0",
-    "codecov.io": "0",
     "mocha": "2",
     "should": "6"
   },
@@ -30,11 +30,12 @@
   ],
   "license": "MIT",
   "scripts": {
-    "lint": "eslint .",
-    "test": "_mocha -R spec -t 20000",
-    "cov": "npm run lint && istanbul cover node_modules/mocha/bin/_mocha -- -R spec -t 20000",
-    "codecov": "codecov < ./coverage/lcov.info",
-    "autod": "autod -e test/fixtures -f ~ -w"
+    "lint": "eslint index.js lib test",
+    "test": "mocha -R spec -t 20000",
+    "cover": "istanbul cover --report none --print none node_modules/mocha/bin/_mocha -- -R spec -t 20000",
+    "cov": "npm run clean && npm run lint && npm run cover && istanbul report text-summary json lcov html",
+    "autod": "autod -e test/fixtures -f ~ -w",
+    "clean": "rm -rf coverage"
   },
   "files": [
     "index.js",

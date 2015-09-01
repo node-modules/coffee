@@ -5,6 +5,8 @@ var path = require('path');
 var coffee = require('..');
 var Coffee = coffee.Coffee;
 
+var fixtures = path.join(__dirname, '..', 'fixtures');
+
 describe('coffee', function() {
 
   it('should pass cmd and method', function() {
@@ -27,7 +29,7 @@ describe('coffee', function() {
     (function() {
       new Coffee({
         method: 'fork',
-        cmd: path.join(__dirname, 'fixtures/stdout-stderr.js')
+        cmd: path.join(fixtures, 'stdout-stderr.js')
       })
       .end()
       .write();
@@ -38,7 +40,7 @@ describe('coffee', function() {
     (function() {
       new Coffee({
         method: 'fork',
-        cmd: path.join(__dirname, 'fixtures/stdout-stderr.js')
+        cmd: path.join(fixtures, 'stdout-stderr.js')
       })
       .end()
       .expect();
@@ -48,7 +50,7 @@ describe('coffee', function() {
   it('should run without callback', function(done) {
     var c = new Coffee({
       method: 'fork',
-      cmd: path.join(__dirname, 'fixtures/stdout-stderr.js')
+      cmd: path.join(fixtures, 'stdout-stderr.js')
     })
     .end();
     setTimeout(function() {
@@ -60,7 +62,7 @@ describe('coffee', function() {
   it('should ignore specified expect key', function(done) {
     new Coffee({
       method: 'fork',
-      cmd: path.join(__dirname, 'fixtures/stdout-stderr.js')
+      cmd: path.join(fixtures, 'stdout-stderr.js')
     })
     .expect('unacceptkey', '1')
     .end(done);
@@ -73,7 +75,18 @@ describe('coffee', function() {
     run('fork');
 
     it('should receive data from stdin', function(done) {
-      coffee.fork(path.join(__dirname, 'fixtures/stdin.js'))
+      coffee.fork(path.join(fixtures, 'stdin.js'))
+      .write('1\n')
+      .write('2')
+      .expect('stdout', '1\n2')
+      .expect('code', 0)
+      .end(done);
+    });
+
+    it('should fork with autoCoverage = true', function(done) {
+      coffee.fork(path.join(fixtures, 'stdin.js'), null, {
+        autoCoverage: true,
+      })
       .write('1\n')
       .write('2')
       .expect('stdout', '1\n2')
@@ -168,7 +181,7 @@ function run(type) {
   });
 
   it('should assert error', function(done) {
-    var cmd = path.join(__dirname, 'fixtures/unknown.sh');
+    var cmd = path.join(fixtures, 'unknown.sh');
     call('unknown')
     .expect('error', /ENOENT/)
     .expect('error', 'spawn ' + cmd + ' ENOENT')
@@ -182,6 +195,6 @@ function run(type) {
 
   function call(filepath) {
     filepath += type === 'fork' ? '.js' : '.sh';
-    return coffee[type](path.join(__dirname, 'fixtures/' + filepath)).debug();
+    return coffee[type](path.join(fixtures, filepath)).debug();
   }
 }
