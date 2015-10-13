@@ -125,4 +125,4 @@ Write data to process.stdout and process.stderr for debug
 Copyright (c) 2015 popomore. Licensed under the MIT license.
 
 
-[istanbul]:
+[istanbul]: https://github.com/gotwarlost/istanbul
