@@ -68,9 +68,6 @@ describe('coffee', function() {
     .end(done);
   });
 
-
-
-
   describe('fork', function() {
     run('fork');
 
@@ -111,12 +108,32 @@ describe('coffee', function() {
 
 function run(type) {
 
-  it('should work with coffee.fork', function(done) {
+  it('should work', function(done) {
     call('stdout-stderr')
     .expect('stdout', 'write to stdout\n')
     .expect('stderr', 'stderr\n')
     .expect('code', 0)
     .end(done);
+  });
+
+  it('should work with debug', function(done) {
+    call('stdout-stderr')
+    .debug()
+    .expect('stdout', 'write to stdout\n')
+    .expect('stderr', 'stderr\n')
+    .expect('code', 0)
+    .end(done);
+  });
+
+  it('should work that assert in end', function(done) {
+    call('stdout-stderr')
+    .end(function(err, res) {
+      should.not.exists(err);
+      res.stdout.should.containEql('write to stdout\n');
+      res.stderr.should.containEql('stderr\n');
+      res.code.should.equal(0);
+      done();
+    });
   });
 
   it('should match stdout, stderr, code', function(done) {
@@ -183,6 +200,7 @@ function run(type) {
   it('should assert error', function(done) {
     var cmd = path.join(fixtures, 'unknown.sh');
     call('unknown')
+    .debug()
     .expect('error', /ENOENT/)
     .expect('error', 'spawn ' + cmd + ' ENOENT')
     .expect('error', new Error('spawn ' + cmd + ' ENOENT'))
@@ -195,6 +213,6 @@ function run(type) {
 
   function call(filepath) {
     filepath += type === 'fork' ? '.js' : '.sh';
-    return coffee[type](path.join(fixtures, filepath)).debug();
+    return coffee[type](path.join(fixtures, filepath));
   }
 }
