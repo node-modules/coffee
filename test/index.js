@@ -68,9 +68,6 @@ describe('coffee', function() {
     .end(done);
   });
 
-
-
-
   describe('fork', function() {
     run('fork');
 
@@ -113,6 +110,15 @@ function run(type) {
 
   it('should work', function(done) {
     call('stdout-stderr')
+    .expect('stdout', 'write to stdout\n')
+    .expect('stderr', 'stderr\n')
+    .expect('code', 0)
+    .end(done);
+  });
+
+  it('should work with debug', function(done) {
+    call('stdout-stderr')
+    .debug()
     .expect('stdout', 'write to stdout\n')
     .expect('stderr', 'stderr\n')
     .expect('code', 0)
@@ -194,6 +200,7 @@ function run(type) {
   it('should assert error', function(done) {
     var cmd = path.join(fixtures, 'unknown.sh');
     call('unknown')
+    .debug()
     .expect('error', /ENOENT/)
     .expect('error', 'spawn ' + cmd + ' ENOENT')
     .expect('error', new Error('spawn ' + cmd + ' ENOENT'))
