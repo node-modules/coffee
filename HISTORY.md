@@ -1,4 +1,9 @@
 
+1.3.0 / 2015-10-29
+==================
+
+  * feat: pass stdout, stderr and code in end callback
+
 1.2.0 / 2015-09-01
 ==================
 
