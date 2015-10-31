@@ -5,7 +5,7 @@ var path = require('path');
 var coffee = require('..');
 var Coffee = coffee.Coffee;
 
-var fixtures = path.join(__dirname, '..', 'fixtures');
+var fixtures = path.join(__dirname, 'fixtures');
 
 describe('coffee', function() {
 
@@ -56,7 +56,7 @@ describe('coffee', function() {
     setTimeout(function() {
       c.complete.should.be.true;
       done();
-    }, 2000);
+    }, 8000);
   });
 
   it('should ignore specified expect key', function(done) {
