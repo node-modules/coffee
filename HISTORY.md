@@ -1,4 +1,10 @@
 
+2.0.0 / 2015-10-31
+==================
+
+  * feat: easy to intergrate with instanbul
+  * deps: upgrade childprocess to 2
+
 1.3.1 / 2015-10-29
 ==================
 
