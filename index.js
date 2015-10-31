@@ -41,9 +41,15 @@ exports.spawn = function(cmd, args, opt) {
 
 // where is istanbul
 function findIstanbul(opt) {
+  if (/\/istanbul$/.test(process.env._)) {
+    debug('find istanbul %s', process.env._);
+    return process.env._;
+  }
+
   var filepath;
   var entryBin = require.resolve(process.env._);
   var dirs = [];
+
   // $PWD
   dirs.push(process.cwd());
   // depended by some tools
