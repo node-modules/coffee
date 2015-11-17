@@ -88,7 +88,11 @@ describe('coffee', function() {
       .write('2')
       .expect('stdout', '1\n2')
       .expect('code', 0)
-      .end(done);
+      .end(function(err) {
+        should.not.exists(err);
+        should.exists(this.proc);
+        done();
+      });
     });
   });
 
