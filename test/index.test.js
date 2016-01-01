@@ -25,7 +25,7 @@ describe('coffee', function() {
     }).should.throw('should specify method and cmd');
   });
 
-  it('should not call write after call end', function() {
+  it.skip('should not call write after call end', function() {
     (function() {
       new Coffee({
         method: 'fork',
@@ -36,7 +36,7 @@ describe('coffee', function() {
     }).should.throw('can\'t call write after end');
   });
 
-  it('should not call expect after call end', function() {
+  it.skip('should not call expect after call end', function() {
     (function() {
       new Coffee({
         method: 'fork',
