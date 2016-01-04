@@ -2,12 +2,16 @@
 
 var should = require('should');
 var path = require('path');
+var spy = require('spy');
+var mm = require('mm');
 var coffee = require('..');
 var Coffee = coffee.Coffee;
 
 var fixtures = path.join(__dirname, 'fixtures');
 
 describe('coffee', function() {
+
+  afterEach(mm.restore);
 
   it('should pass cmd and method', function() {
     (function() {
@@ -25,26 +29,34 @@ describe('coffee', function() {
     }).should.throw('should specify method and cmd');
   });
 
-  it.skip('should not call write after call end', function() {
-    (function() {
-      new Coffee({
-        method: 'fork',
-        cmd: path.join(fixtures, 'stdout-stderr.js')
-      })
-      .end()
-      .write();
-    }).should.throw('can\'t call write after end');
+  it('should not call write after call end', function(done) {
+    const coffee = new Coffee({
+      method: 'fork',
+      cmd: path.join(fixtures, 'stdout-stderr.js')
+    })
+    .end(function() {
+      try {
+        coffee.write();
+      } catch(e) {
+        e.message.should.eql('can\'t call write after end');
+        done();
+      }
+    });
   });
 
-  it.skip('should not call expect after call end', function() {
-    (function() {
-      new Coffee({
-        method: 'fork',
-        cmd: path.join(fixtures, 'stdout-stderr.js')
-      })
-      .end()
-      .expect();
-    }).should.throw('can\'t call expect after end');
+  it('should not call expect after call end', function(done) {
+    const coffee = new Coffee({
+      method: 'fork',
+      cmd: path.join(fixtures, 'stdout-stderr.js')
+    })
+    .end(function() {
+      try {
+        coffee.expect();
+      } catch(e) {
+        e.message.should.eql('can\'t call expect after end');
+        done();
+      }
+    });
   });
 
   it('should run without callback', function(done) {
@@ -66,6 +78,71 @@ describe('coffee', function() {
     })
     .expect('unacceptkey', '1')
     .end(done);
+  });
+
+  it('should set the callback of the latest end method', function(done) {
+    var spy1 = spy();
+    var spy2 = spy();
+    new Coffee({
+      method: 'fork',
+      cmd: path.join(fixtures, 'cwd.js')
+    })
+    .end(spy1)
+    .end(spy2);
+
+    setTimeout(function() {
+      spy1.called.should.be.false;
+      spy2.called.should.be.true;
+      done();
+    }, 3000);
+  });
+
+  it('should .debug(1)', function(done) {
+    var stdout = '', stderr = '';
+    var stderrWrite = process.stderr.write;
+    var stdoutWrite = process.stdout.write;
+    mm(process.stderr, 'write', function(buf) {
+      stderr += buf;
+      stderrWrite.call(process.stderr, buf);
+    });
+    mm(process.stdout, 'write', function(buf) {
+      stdout += buf;
+      stdoutWrite.call(process.stdout, buf);
+    });
+    new Coffee({
+      method: 'fork',
+      cmd: path.join(fixtures, 'stdout-stderr.js')
+    })
+    .debug(1)
+    .end(function() {
+      stdout.should.eql('write to stdout\n');
+      stderr.should.eql('');
+      done();
+    });
+  });
+
+  it('should .debug(2)', function(done) {
+    var stdout = '', stderr = '';
+    var stderrWrite = process.stderr.write;
+    var stdoutWrite = process.stdout.write;
+    mm(process.stderr, 'write', function(buf) {
+      stderr += buf;
+      stderrWrite.call(process.stderr, buf);
+    });
+    mm(process.stdout, 'write', function(buf) {
+      stdout += buf;
+      stdoutWrite.call(process.stdout, buf);
+    });
+    new Coffee({
+      method: 'fork',
+      cmd: path.join(fixtures, 'stdout-stderr.js')
+    })
+    .debug(2)
+    .end(function() {
+      stdout.should.eql('');
+      stderr.should.eql('stderr\n');
+      done();
+    });
   });
 
   describe('fork', function() {
