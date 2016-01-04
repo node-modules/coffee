@@ -1,0 +1,9 @@
+{
+  "name": "a",
+  "scripts": {
+    "clean": "rm -rf coverage",
+    "cover": "../../../node_modules/.bin/istanbul cover --report none --include-pid ../../../node_modules/.bin/_mocha -- -t 10000",
+    "report": "../../../node_modules/.bin/istanbul report text",
+    "test": "npm run clean && npm run cover && npm run report"
+  }
+}

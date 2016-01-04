@@ -106,9 +106,19 @@ Write data to stdin, see example above.
 
 Callback will be called after completing the assertion, the first argument is Error if throw exception.
 
-#### coffee.debug()
+#### coffee.debug(level)
 
 Write data to process.stdout and process.stderr for debug
+
+`level` can be
+
+- 0 (default): pipe stdout + stderr
+- 1: pipe stdout
+- 2: pipe stderr
+
+#### coffee.coverage()
+
+If you set false, coffee will not generate coverage.json, default: true.
 
 ## LISENCE
 
