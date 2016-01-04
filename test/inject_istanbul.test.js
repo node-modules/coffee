@@ -9,11 +9,35 @@ describe('coffee with istanbul', function() {
 
   afterEach(mm.restore);
 
-  it('should pass', function(done) {
+  it('should generate coverage', function(done) {
     coffee.spawn('npm', ['test'], { cwd: path.join(__dirname, 'fixtures/istanbul') })
     .expect('stdout', / child.js {6}| {6}100 /)
     .expect('stdout', / grandchild.js | {6}100 /)
     .expect('stdout', / index.js {6}| {6}100 /)
+    .end(done);
+  });
+
+  it('should not generate coverage', function(done) {
+    coffee.spawn('npm', ['test'], { cwd: path.join(__dirname, 'fixtures/istanbul-no-coverage') })
+    .end(function(err, res) {
+      res.stdout.should.not.containEql('child.js');
+      res.stdout.should.not.containEql('grandchild.js');
+      res.stdout.should.not.containEql('index.js');
+      done();
+    });
+  });
+
+  it('should coffee_inject_istanbul = true', function(done) {
+    coffee.fork(path.join(fixtures, 'env.js'))
+    .coverage(true)
+    .expect('stdout', /coffee_inject_istanbul: 'true'/)
+    .end(done);
+  });
+
+  it('should coffee_inject_istanbul = false when coverage(false)', function(done) {
+    coffee.fork(path.join(fixtures, 'env.js'))
+    .coverage(false)
+    .expect('stdout', /coffee_inject_istanbul: 'false'/)
     .end(done);
   });
 
