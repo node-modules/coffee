@@ -1,4 +1,11 @@
 
+3.0.0 / 2016-01-05
+==================
+
+  * feat: ignore coverage or not by .coverage()
+  * feat: spawn without .end, use nextTick (break change)
+  * feat: pass a number to .debug
+
 2.1.0 / 2015-11-17
 ==================
 
