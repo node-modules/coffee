@@ -1,4 +1,9 @@
 
+3.0.1 / 2016-01-07
+==================
+
+  * fix: should inject coverage when start with istanbul
+
 3.0.0 / 2016-01-05
 ==================
 
