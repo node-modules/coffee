@@ -28,6 +28,7 @@ describe('coffee with istanbul', function() {
   });
 
   it('should coffee_inject_istanbul = true', function(done) {
+    mm(process.env, 'running_under_istanbul', 1);
     coffee.fork(path.join(fixtures, 'env.js'))
     .coverage(true)
     .expect('stdout', /coffee_inject_istanbul: 'true'/)
