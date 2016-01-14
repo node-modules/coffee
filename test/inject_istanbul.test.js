@@ -2,6 +2,7 @@
 
 var path = require('path');
 var mm = require('mm');
+var should = require('should');
 var coffee = require('../index');
 var findIstanbul = require('../lib/find_istanbul');
 var fixtures = path.join(__dirname, 'fixtures');
@@ -33,7 +34,11 @@ describe('coffee with istanbul', function() {
     coffee.fork(path.join(fixtures, 'env.js'))
     .coverage(true)
     .expect('stdout', /coffee_inject_istanbul: 'true'/)
-    .end(done);
+    .end(function(err) {
+      should.not.exists(err);
+      process.env.coffee_inject_istanbul.should.equal('false');
+      done();
+    });
   });
 
   it('should coffee_inject_istanbul = false when coverage(false)', function(done) {
