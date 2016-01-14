@@ -1,4 +1,9 @@
 
+3.0.3 / 2016-01-14
+==================
+
+  * fix: should init and restore coffee_inject_istanbul
+
 3.0.2 / 2016-01-09
 ==================
 
