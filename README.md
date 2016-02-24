@@ -98,6 +98,10 @@ coffee.spawn('echo', ['abcdefg'])
 
 Accept type: `stdout`, `stderr`, `code`, `error`
 
+#### coffee.notExpect(type, expected)
+
+The opposite assertion of `expect`.
+
 #### coffee.write(data)
 
 Write data to stdin, see example above.
@@ -115,6 +119,8 @@ Write data to process.stdout and process.stderr for debug
 - 0 (default): pipe stdout + stderr
 - 1: pipe stdout
 - 2: pipe stderr
+
+Alternative you can use `COFFEE_DEBUG` env.
 
 #### coffee.coverage()
 
