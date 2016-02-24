@@ -77,6 +77,7 @@ describe('coffee', function() {
       cmd: path.join(fixtures, 'stdout-stderr.js')
     })
     .expect('unacceptkey', '1')
+    .notExpect('unacceptkey', '1')
     .end(done);
   });
 
