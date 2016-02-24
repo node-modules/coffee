@@ -170,6 +170,31 @@ describe('coffee', function() {
     });
   });
 
+  it('should .debug(false)', function(done) {
+    var stdout = '', stderr = '';
+    var stderrWrite = process.stderr.write;
+    var stdoutWrite = process.stdout.write;
+    mm(process.stderr, 'write', function(buf) {
+      stderr += buf;
+      stderrWrite.call(process.stderr, buf);
+    });
+    mm(process.stdout, 'write', function(buf) {
+      stdout += buf;
+      stdoutWrite.call(process.stdout, buf);
+    });
+    new Coffee({
+      method: 'fork',
+      cmd: path.join(fixtures, 'stdout-stderr.js')
+    })
+    .debug()
+    .debug(false)
+    .end(function() {
+      stdout.should.eql('');
+      stderr.should.eql('');
+      done();
+    });
+  });
+
   describe('fork', function() {
     run('fork');
 

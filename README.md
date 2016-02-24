@@ -119,6 +119,7 @@ Write data to process.stdout and process.stderr for debug
 - 0 (default): pipe stdout + stderr
 - 1: pipe stdout
 - 2: pipe stderr
+- false: disable
 
 Alternative you can use `COFFEE_DEBUG` env.
 
