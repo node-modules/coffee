@@ -1,6 +1,6 @@
 {
   "name": "coffee",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Test command line on nodejs",
   "main": "index.js",
   "dependencies": {
