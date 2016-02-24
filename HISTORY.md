@@ -1,4 +1,10 @@
 
+3.1.0 / 2016-02-24
+==================
+
+  * feat: debug from COFFEE_DEBUG
+  * feat: add .notExpect method
+
 3.0.3 / 2016-01-14
 ==================
 
