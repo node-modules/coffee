@@ -217,24 +217,6 @@ function run(type) {
     });
   });
 
-  it('should match stdout, stderr, code', function(done) {
-    call('stdout-stderr')
-    .expect('stdout', 'write to stdout\n')
-    .expect('stderr', 'stderr\n')
-    .expect('code', 0)
-    .end(done);
-  });
-
-  it('should not match on strict equal', function(done) {
-    call('stdout-stderr')
-    .expect('stdout', 'stdout')
-    .end(function(err) {
-      should.exists(err);
-      err.message.should.eql('should match stdout expected `stdout(String)` but actual `write to stdout\\n(String)`');
-      done();
-    });
-  });
-
   it('should not match on different type', function(done) {
     call('stdout-stderr')
     .expect('code', '0')
@@ -245,37 +227,97 @@ function run(type) {
     });
   });
 
-  it('should match with RegExp', function(done) {
-    call('stdout-stderr')
-    .expect('stdout', /stdout/)
-    .expect('stdout', /write /)
-    .expect('stderr', /stderr/)
-    .expect('stderr', /err/)
-    .end(done);
-  });
+  describe('expect', function() {
 
-  it('should not match with RegExp', function(done) {
-    call('stdout-stderr')
-    .expect('stdout', /write/)
-    .expect('stdout', /nothing/)
-    .end(function(err) {
-      should.exists(err);
-      err.message.should.eql('should match stdout expected `/nothing/(RegExp)` but actual `write to stdout\\n(String)`');
-      done();
+    it('should match stdout, stderr, code', function(done) {
+      call('stdout-stderr')
+      .expect('stdout', 'write to stdout\n')
+      .expect('stderr', 'stderr\n')
+      .expect('code', 0)
+      .end(done);
     });
+
+    it('should not match on strict equal', function(done) {
+      call('stdout-stderr')
+      .expect('stdout', 'stdout')
+      .end(function(err) {
+        should.exists(err);
+        err.message.should.eql('should match stdout expected `stdout(String)` but actual `write to stdout\\n(String)`');
+        done();
+      });
+    });
+
+
+    it('should match with RegExp', function(done) {
+      call('stdout-stderr')
+      .expect('stdout', /stdout/)
+      .expect('stdout', /write /)
+      .expect('stderr', /stderr/)
+      .expect('stderr', /err/)
+      .end(done);
+    });
+
+    it('should not match with RegExp', function(done) {
+      call('stdout-stderr')
+      .expect('stdout', /write/)
+      .expect('stdout', /nothing/)
+      .end(function(err) {
+        should.exists(err);
+        err.message.should.eql('should match stdout expected `/nothing/(RegExp)` but actual `write to stdout\\n(String)`');
+        done();
+      });
+    });
+
+    it('should match with Array', function(done) {
+      call('stdout-stderr')
+      .expect('stdout', [/write/, /to/, /stdout/])
+      .end(done);
+    });
+
+    it('should exit with code 1', function(done) {
+      call('process-exit')
+      .expect('stdout', 'exit 1')
+      .expect('code', 1)
+      .end(done);
+    });
+
   });
 
-  it('should match with Array', function(done) {
-    call('stdout-stderr')
-    .expect('stdout', [/write/, /to/, /stdout/])
-    .end(done);
-  });
+  describe('notExpect', function() {
 
-  it('should exit with code 1', function(done) {
-    call('process-exit')
-    .expect('stdout', 'exit 1')
-    .expect('code', 1)
-    .end(done);
+    it('should match stdout', function(done) {
+      call('stdout-stderr')
+      .notExpect('stdout', 'write to stdout\n')
+      .end(function(err) {
+        err.message.should.eql('should not match stdout expected `write to stdout\\n(String)` but actual `write to stdout\\n(String)`');
+        done();
+      });
+    });
+
+    it('should not match stdout', function(done) {
+      call('stdout-stderr')
+      .notExpect('stdout', 'stdout')
+      .end(done);
+    });
+
+    it('should not match with RegExp', function(done) {
+      call('stdout-stderr')
+      .notExpect('stdout', /nothing/)
+      .end(done);
+    });
+
+    it('should not match with Array', function(done) {
+      call('stdout-stderr')
+      .notExpect('stdout', [/nothing/])
+      .end(done);
+    });
+
+    it('should exit with code 1', function(done) {
+      call('process-exit')
+      .notExpect('code', 0)
+      .end(done);
+    });
+
   });
 
   it('should assert error', function(done) {
