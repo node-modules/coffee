@@ -120,6 +120,8 @@ Write data to process.stdout and process.stderr for debug
 - 1: pipe stdout
 - 2: pipe stderr
 
+Alternative you can use `COFFEE_DEBUG` env.
+
 #### coffee.coverage()
 
 If you set false, coffee will not generate coverage.json, default: true.
