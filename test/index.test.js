@@ -44,21 +44,6 @@ describe('coffee', function() {
     });
   });
 
-  it('should not call expect after call end', function(done) {
-    const coffee = new Coffee({
-      method: 'fork',
-      cmd: path.join(fixtures, 'stdout-stderr.js')
-    })
-    .end(function() {
-      try {
-        coffee.expect();
-      } catch(e) {
-        e.message.should.eql('can\'t call expect after end');
-        done();
-      }
-    });
-  });
-
   it('should run without callback', function(done) {
     var c = new Coffee({
       method: 'fork',
@@ -297,7 +282,6 @@ function run(type) {
       });
     });
 
-
     it('should match with RegExp', function(done) {
       call('stdout-stderr')
       .expect('stdout', /stdout/)
@@ -382,6 +366,29 @@ function run(type) {
 
   it.skip('should receive arguments', function() {
 
+  });
+
+  it('should expect after end', function(done) {
+    call('stdout-stderr')
+    .end(function() {
+      this.expect('stdout', 'write to stdout\n');
+      this.notExpect('stderr', 'stdout\n');
+      done();
+    });
+  });
+
+  it('should not expect after end', function(done) {
+    call('stdout-stderr')
+    .end(function() {
+      var err;
+      try {
+        this.expect('stdout', 'write to stderr');
+      } catch(e) {
+        err = e;
+      }
+      err.message.should.eql('should match stdout expected `write to stderr(String)` but actual `write to stdout\\n(String)`');
+      done();
+    });
   });
 
   function call(filepath) {
