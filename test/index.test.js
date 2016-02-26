@@ -372,6 +372,8 @@ function run(type) {
     call('stdout-stderr')
     .end(function() {
       this.expect('stdout', 'write to stdout\n');
+      this.notExpect('stdout', 'write to stderr\n');
+      this.expect('stderr', 'stderr\n');
       this.notExpect('stderr', 'stdout\n');
       done();
     });
