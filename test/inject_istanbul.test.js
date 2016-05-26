@@ -81,12 +81,12 @@ describe('coffee with istanbul', function() {
   it('should findIstanbul when process.env._ exists', function() {
     mm(process.env, 'HOME', '/tmp');
     mm(process.env, '_', path.join(__dirname, 'index.test.js'));
-    findIstanbul().should.equal(path.join(__dirname, '../node_modules/.bin/istanbul'));
+    findIstanbul().should.equal(path.join(__dirname, '../node_modules/istanbul/lib/cli.js'));
   });
 
   it('should findIstanbul when process.env._ is undefined', function() {
     mm(process.env, '_', '');
-    findIstanbul().should.equal(path.join(__dirname, '../node_modules/.bin/istanbul'));
+    findIstanbul().should.equal(path.join(__dirname, '../node_modules/istanbul/lib/cli.js'));
   });
 
   it('should not throw when process.env._ is not exist', function() {
