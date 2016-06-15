@@ -19,12 +19,12 @@ describe('coffee', function() {
     }).should.throw('should specify method and cmd');
     (function() {
       new Coffee({
-        cmd: 'echo'
+        cmd: 'echo',
       });
     }).should.throw('should specify method and cmd');
     (function() {
       new Coffee({
-        method: 'spawn'
+        method: 'spawn',
       });
     }).should.throw('should specify method and cmd');
   });
@@ -32,12 +32,12 @@ describe('coffee', function() {
   it('should not call write after call end', function(done) {
     const coffee = new Coffee({
       method: 'fork',
-      cmd: path.join(fixtures, 'stdout-stderr.js')
+      cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
     .end(function() {
       try {
         coffee.write();
-      } catch(e) {
+      } catch (e) {
         e.message.should.eql('can\'t call write after end');
         done();
       }
@@ -47,19 +47,19 @@ describe('coffee', function() {
   it('should run without callback', function(done) {
     var c = new Coffee({
       method: 'fork',
-      cmd: path.join(fixtures, 'stdout-stderr.js')
+      cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
     .end();
     setTimeout(function() {
       c.complete.should.be.true;
       done();
-    }, 8000);
+    }, 50000);
   });
 
   it('should ignore specified expect key', function(done) {
     new Coffee({
       method: 'fork',
-      cmd: path.join(fixtures, 'stdout-stderr.js')
+      cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
     .expect('unacceptkey', '1')
     .notExpect('unacceptkey', '1')
@@ -71,7 +71,7 @@ describe('coffee', function() {
     var spy2 = spy();
     new Coffee({
       method: 'fork',
-      cmd: path.join(fixtures, 'cwd.js')
+      cmd: path.join(fixtures, 'cwd.js'),
     })
     .end(spy1)
     .end(spy2);
@@ -80,7 +80,7 @@ describe('coffee', function() {
       spy1.called.should.be.false;
       spy2.called.should.be.true;
       done();
-    }, 3000);
+    }, 50000);
   });
 
   it('should .debug(1)', function(done) {
@@ -97,7 +97,7 @@ describe('coffee', function() {
     });
     new Coffee({
       method: 'fork',
-      cmd: path.join(fixtures, 'stdout-stderr.js')
+      cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
     .debug(1)
     .end(function() {
@@ -121,7 +121,7 @@ describe('coffee', function() {
     });
     new Coffee({
       method: 'fork',
-      cmd: path.join(fixtures, 'stdout-stderr.js')
+      cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
     .debug(2)
     .end(function() {
@@ -146,7 +146,7 @@ describe('coffee', function() {
     mm(process.env, 'COFFEE_DEBUG', 1);
     new Coffee({
       method: 'fork',
-      cmd: path.join(fixtures, 'stdout-stderr.js')
+      cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
     .end(function() {
       stdout.should.eql('write to stdout\n');
@@ -169,7 +169,7 @@ describe('coffee', function() {
     });
     new Coffee({
       method: 'fork',
-      cmd: path.join(fixtures, 'stdout-stderr.js')
+      cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
     .debug()
     .debug(false)
@@ -385,7 +385,7 @@ function run(type) {
       var err;
       try {
         this.expect('stdout', 'write to stderr');
-      } catch(e) {
+      } catch (e) {
         err = e;
       }
       err.message.should.eql('should match stdout expected `write to stderr(String)` but actual `write to stdout\\n(String)`');
