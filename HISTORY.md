@@ -1,4 +1,10 @@
 
+3.2.2 / 2016-06-15
+==================
+
+  * style: use eslint-config-egg
+  * fix: catch resolve when process.env._ is not found
+
 3.2.1 / 2016-02-26
 ==================
 
