@@ -88,4 +88,9 @@ describe('coffee with istanbul', function() {
     mm(process.env, '_', '');
     findIstanbul().should.equal(path.join(__dirname, '../node_modules/.bin/istanbul'));
   });
+
+  it('should not throw when process.env._ is not exist', function() {
+    mm(process.env, '_', '/notexist');
+    findIstanbul();
+  });
 });
