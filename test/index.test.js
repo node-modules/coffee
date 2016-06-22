@@ -209,7 +209,7 @@ describe('coffee', function() {
   });
 
   // windows 不测 spawn
-  if (process.platformi === 'win32') {
+  if (process.platform === 'win32') {
     return;
   }
 
