@@ -208,6 +208,11 @@ describe('coffee', function() {
     });
   });
 
+  // windows 不测 spawn
+  if (process.platform === 'win32') {
+    return;
+  }
+
   describe('spawn', function() {
     run('spawn');
 
