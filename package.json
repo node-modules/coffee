@@ -34,7 +34,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint index.js lib test",
-    "test": "mocha -R spec -t 20000",
+    "test": "mocha -R spec -t 80000",
     "cover": "rm -rf coverage && istanbul cover --report none --print none node_modules/mocha/bin/_mocha -- -R spec -t 80000",
     "cov": "npm run clean && npm run lint && npm run cover && istanbul report --root coverage text-summary json lcov",
     "autod": "autod -e test/fixtures -f ~ -w",
