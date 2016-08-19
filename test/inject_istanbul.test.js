@@ -9,6 +9,9 @@ var fixtures = path.join(__dirname, 'fixtures');
 
 describe('coffee with istanbul', function() {
 
+  before(() => {
+    process.env.istanbul_bin_path = '';
+  });
   afterEach(mm.restore);
 
   it('should generate coverage', function(done) {
@@ -75,6 +78,11 @@ describe('coffee with istanbul', function() {
 
   it('should findIstanbul when process.env._ has istanbul', function() {
     mm(process.env, '_', '/home/admin/node_modules/.bin/istanbul');
+    findIstanbul().should.equal('/home/admin/node_modules/.bin/istanbul');
+  });
+
+  it('should findIstanbul when process.env.istanbul_bin_path exists', function() {
+    mm(process.env, 'istanbul_bin_path', '/home/admin/node_modules/.bin/istanbul');
     findIstanbul().should.equal('/home/admin/node_modules/.bin/istanbul');
   });
 
