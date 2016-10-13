@@ -33,8 +33,8 @@ describe('coffee', function() {
     const coffee = new Coffee({
       method: 'fork',
       cmd: path.join(fixtures, 'stdout-stderr.js'),
-    })
-    .end(function() {
+    });
+    coffee.end(function() {
       try {
         coffee.write();
       } catch (e) {
@@ -48,8 +48,8 @@ describe('coffee', function() {
     var c = new Coffee({
       method: 'fork',
       cmd: path.join(fixtures, 'stdout-stderr.js'),
-    })
-    .end();
+    });
+    c.end();
     setTimeout(function() {
       c.complete.should.be.true;
       done();
@@ -69,12 +69,12 @@ describe('coffee', function() {
   it('should set the callback of the latest end method', function(done) {
     var spy1 = spy();
     var spy2 = spy();
-    new Coffee({
+    var c = new Coffee({
       method: 'fork',
       cmd: path.join(fixtures, 'cwd.js'),
-    })
-    .end(spy1)
-    .end(spy2);
+    });
+    c.end(spy1);
+    c.end(spy2);
 
     setTimeout(function() {
       spy1.called.should.be.false;
@@ -389,6 +389,28 @@ function run(type) {
         err = e;
       }
       err.message.should.eql('should match stdout expected `write to stderr(String)` but actual `write to stdout\\n(String)`');
+      done();
+    });
+  });
+
+  it('should support promise', function(done) {
+    call('stdout-stderr')
+    .expect('stdout', 'write to stdout\n')
+    .expect('stderr', 'stderr\n')
+    .expect('code', 0)
+    .end()
+    .then(() => done())
+    .catch(done);
+  });
+
+  it('should support promise when error', function(done) {
+    call('stdout-stderr')
+    .expect('stdout', 'write to stdout\n')
+    .expect('stderr', 'stderr\n')
+    .expect('code', 1)
+    .end()
+    .catch(function(err) {
+      should.exists(err);
       done();
     });
   });
