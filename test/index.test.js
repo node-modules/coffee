@@ -206,6 +206,21 @@ describe('coffee', function() {
         done();
       });
     });
+
+    it('should support fork(cmd, opt)', function(done) {
+      coffee.fork(path.join(fixtures, 'stdin.js'), {
+        autoCoverage: true,
+      })
+      .write('1\n')
+      .write('2')
+      .expect('stdout', '1\n2')
+      .expect('code', 0)
+      .end(function(err) {
+        should.not.exists(err);
+        should.exists(this.proc);
+        done();
+      });
+    });
   });
 
   describe('spawn', function() {
