@@ -1,6 +1,6 @@
 'use strict';
 
-var should = require('should');
+const assert = require('assert');
 var path = require('path');
 var spy = require('spy');
 var mm = require('mm');
@@ -14,19 +14,19 @@ describe('coffee', function() {
   afterEach(mm.restore);
 
   it('should pass cmd and method', function() {
-    (function() {
+    assert.throws(function() {
       new Coffee();
-    }).should.throw('should specify method and cmd');
-    (function() {
+    }, 'should specify method and cmd');
+    assert.throws(function() {
       new Coffee({
         cmd: 'echo',
       });
-    }).should.throw('should specify method and cmd');
-    (function() {
+    }, 'should specify method and cmd');
+    assert.throws(function() {
       new Coffee({
         method: 'spawn',
       });
-    }).should.throw('should specify method and cmd');
+    }, 'should specify method and cmd');
   });
 
   it('should not call write after call end', function(done) {
@@ -38,7 +38,7 @@ describe('coffee', function() {
       try {
         coffee.write();
       } catch (e) {
-        e.message.should.eql('can\'t call write after end');
+        assert(e.message === 'can\'t call write after end');
         done();
       }
     });
@@ -51,7 +51,7 @@ describe('coffee', function() {
     });
     c.end();
     setTimeout(function() {
-      c.complete.should.be.true;
+      assert(c.complete);
       done();
     }, 50000);
   });
@@ -77,14 +77,15 @@ describe('coffee', function() {
     c.end(spy2);
 
     setTimeout(function() {
-      spy1.called.should.be.false;
-      spy2.called.should.be.true;
+      assert(!spy1.called);
+      assert(spy2.called);
       done();
     }, 50000);
   });
 
   it('should .debug(1)', function(done) {
-    var stdout = '', stderr = '';
+    var stdout = '',
+      stderr = '';
     var stderrWrite = process.stderr.write;
     var stdoutWrite = process.stdout.write;
     mm(process.stderr, 'write', function(buf) {
@@ -101,14 +102,15 @@ describe('coffee', function() {
     })
     .debug(1)
     .end(function() {
-      stdout.should.eql('write to stdout\n');
-      stderr.should.eql('');
+      assert(stdout === 'write to stdout\n');
+      assert(stderr === '');
       done();
     });
   });
 
   it('should .debug(2)', function(done) {
-    var stdout = '', stderr = '';
+    var stdout = '',
+      stderr = '';
     var stderrWrite = process.stderr.write;
     var stdoutWrite = process.stdout.write;
     mm(process.stderr, 'write', function(buf) {
@@ -125,14 +127,15 @@ describe('coffee', function() {
     })
     .debug(2)
     .end(function() {
-      stdout.should.eql('');
-      stderr.should.eql('stderr\n');
+      assert(stdout === '');
+      assert(stderr === 'stderr\n');
       done();
     });
   });
 
   it('should debug when COFFEE_DEBUG', function(done) {
-    var stdout = '', stderr = '';
+    var stdout = '',
+      stderr = '';
     var stderrWrite = process.stderr.write;
     var stdoutWrite = process.stdout.write;
     mm(process.stderr, 'write', function(buf) {
@@ -149,14 +152,15 @@ describe('coffee', function() {
       cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
     .end(function() {
-      stdout.should.eql('write to stdout\n');
-      stderr.should.eql('');
+      assert(stdout === 'write to stdout\n');
+      assert(stderr === '');
       done();
     });
   });
 
   it('should .debug(false)', function(done) {
-    var stdout = '', stderr = '';
+    var stdout = '',
+      stderr = '';
     var stderrWrite = process.stderr.write;
     var stdoutWrite = process.stdout.write;
     mm(process.stderr, 'write', function(buf) {
@@ -174,8 +178,8 @@ describe('coffee', function() {
     .debug()
     .debug(false)
     .end(function() {
-      stdout.should.eql('');
-      stderr.should.eql('');
+      assert(stdout === '');
+      assert(stderr === '');
       done();
     });
   });
@@ -201,8 +205,8 @@ describe('coffee', function() {
       .expect('stdout', '1\n2')
       .expect('code', 0)
       .end(function(err) {
-        should.not.exists(err);
-        should.exists(this.proc);
+        assert(!err);
+        assert(this.proc);
         done();
       });
     });
@@ -216,8 +220,8 @@ describe('coffee', function() {
       .expect('stdout', '1\n2')
       .expect('code', 0)
       .end(function(err) {
-        should.not.exists(err);
-        should.exists(this.proc);
+        assert(!err);
+        assert(this.proc);
         done();
       });
     });
@@ -259,10 +263,10 @@ function run(type) {
   it('should work that assert in end', function(done) {
     call('stdout-stderr')
     .end(function(err, res) {
-      should.not.exists(err);
-      res.stdout.should.containEql('write to stdout\n');
-      res.stderr.should.containEql('stderr\n');
-      res.code.should.equal(0);
+      assert(!err);
+      assert(res.stdout.includes('write to stdout\n'));
+      assert(res.stderr.includes('stderr\n'));
+      assert(res.code === 0);
       done();
     });
   });
@@ -271,8 +275,10 @@ function run(type) {
     call('stdout-stderr')
     .expect('code', '0')
     .end(function(err) {
-      should.exists(err);
-      err.message.should.eql('should match code expected `0(String)` but actual `0(Number)`');
+      assert(err);
+      assert(
+        err.message === 'should match code expected `0(String)` but actual `0(Number)`'
+      );
       done();
     });
   });
@@ -291,8 +297,10 @@ function run(type) {
       call('stdout-stderr')
       .expect('stdout', 'stdout')
       .end(function(err) {
-        should.exists(err);
-        err.message.should.eql('should match stdout expected `stdout(String)` but actual `write to stdout\\n(String)`');
+        assert(err);
+        assert(
+          err.message === 'should match stdout expected `stdout(String)` but actual `write to stdout\\n(String)`'
+        );
         done();
       });
     });
@@ -311,15 +319,17 @@ function run(type) {
       .expect('stdout', /write/)
       .expect('stdout', /nothing/)
       .end(function(err) {
-        should.exists(err);
-        err.message.should.eql('should match stdout expected `/nothing/(RegExp)` but actual `write to stdout\\n(String)`');
+        assert(err);
+        assert(
+          err.message === 'should match stdout expected `/nothing/(RegExp)` but actual `write to stdout\\n(String)`'
+        );
         done();
       });
     });
 
     it('should match with Array', function(done) {
       call('stdout-stderr')
-      .expect('stdout', [/write/, /to/, /stdout/])
+      .expect('stdout', [ /write/, /to/, /stdout/ ])
       .end(done);
     });
 
@@ -338,7 +348,9 @@ function run(type) {
       call('stdout-stderr')
       .notExpect('stdout', 'write to stdout\n')
       .end(function(err) {
-        err.message.should.eql('should not match stdout expected `write to stdout\\n(String)` but actual `write to stdout\\n(String)`');
+        assert(
+          err.message === 'should not match stdout expected `write to stdout\\n(String)` but actual `write to stdout\\n(String)`'
+        );
         done();
       });
     });
@@ -357,7 +369,7 @@ function run(type) {
 
     it('should not match with Array', function(done) {
       call('stdout-stderr')
-      .notExpect('stdout', [/nothing/])
+      .notExpect('stdout', [ /nothing/ ])
       .end(done);
     });
 
@@ -403,7 +415,9 @@ function run(type) {
       } catch (e) {
         err = e;
       }
-      err.message.should.eql('should match stdout expected `write to stderr(String)` but actual `write to stdout\\n(String)`');
+      assert(
+        err.message === 'should match stdout expected `write to stderr(String)` but actual `write to stdout\\n(String)`'
+      );
       done();
     });
   });
@@ -425,7 +439,7 @@ function run(type) {
     .expect('code', 1)
     .end()
     .catch(function(err) {
-      should.exists(err);
+      assert(err);
       done();
     });
   });
