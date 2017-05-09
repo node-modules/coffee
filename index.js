@@ -24,8 +24,8 @@ exports.fork = function(modulePath, args, opt) {
   return new Coffee({
     method: 'fork',
     cmd: modulePath,
-    args: args,
-    opt: opt,
+    args,
+    opt,
   });
 };
 
@@ -39,8 +39,8 @@ exports.fork = function(modulePath, args, opt) {
 exports.spawn = function(cmd, args, opt) {
   return new Coffee({
     method: 'spawn',
-    cmd: cmd,
-    args: args,
-    opt: opt,
+    cmd,
+    args,
+    opt,
   });
 };

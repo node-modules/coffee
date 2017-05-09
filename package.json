@@ -4,18 +4,18 @@
   "description": "Test command line on nodejs",
   "main": "index.js",
   "dependencies": {
-    "debug": "~2.2.0",
-    "childprocess": "~2.0.0"
+    "childprocess": "^2.0.2",
+    "debug": "^2.6.6"
   },
   "devDependencies": {
     "autod": "2",
-    "eslint": "2",
-    "eslint-config-egg": "^2.0.0",
+    "egg-ci": "^1.6.0",
+    "eslint": "3",
+    "eslint-config-egg": "3",
     "istanbul": "0",
-    "mm": "^1.3.5",
+    "mm": "^2.1.0",
     "mocha": "2",
-    "should": "6",
-    "spy": "^0.1.3"
+    "spy": "^1.0.0"
   },
   "repository": {
     "type": "git",
@@ -32,12 +32,18 @@
     "exec"
   ],
   "license": "MIT",
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "ci": {
+    "version": "4, 6, 7"
+  },
   "scripts": {
     "lint": "eslint index.js lib test",
     "test": "mocha -R spec -t 80000",
     "cover": "rm -rf coverage && istanbul cover --report none --print none node_modules/mocha/bin/_mocha -- -R spec -t 80000",
     "cov": "npm run clean && npm run lint && npm run cover && istanbul report --root coverage text-summary json lcov",
-    "autod": "autod -e test/fixtures -f ~ -w",
+    "autod": "autod -e test/fixtures -f ^ -w",
     "clean": "rm -rf coverage"
   },
   "files": [
