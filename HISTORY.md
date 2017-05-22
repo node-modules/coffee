@@ -1,4 +1,10 @@
 
+3.3.2 / 2017-05-22
+==================
+
+  * deps: upgrade dependencies (#56)
+  * test: use assert instead of should (#54)
+
 3.3.1 / 2017-05-10
 ==================
 
