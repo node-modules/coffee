@@ -50,21 +50,9 @@ console.log(12);
 console.error(34);
 ```
 
-## Support multiple process coverage with istanbul
+## Support multiple process coverage with nyc
 
-Coffee will detect `istanbul` automatically, and generate coverage-{processId}.json, you should generate reporter by `istanbul report`.
-
-```bash
-$ rm -rf coverage
-$ istanbul cover --report none --print none node_modules/mocha/bin/_mocha -- -R spec -t 5000
-$ istanbul report text-summary json lcov
-=============================== Coverage summary ===============================
-State## ments   : 98.2% ( 109/111 )
-Branches     : 97.37% ( 37/38 )
-Functions    : 100% ( 20/20 )
-Lines        : 98.18% ( 108/110 )
-================================================================================
-```
+Recommend to use [nyc] for coverage, you can use [any test frammework supported by nyc](https://istanbul.js.org/docs/tutorials/).
 
 ## API
 
@@ -129,7 +117,7 @@ If you set false, coffee will not generate coverage.json, default: true.
 
 ## LISENCE
 
-Copyright (c) 2015 popomore. Licensed under the MIT license.
+Copyright (c) 2017 popomore. Licensed under the MIT license.
 
 
-[istanbul]: https://github.com/gotwarlost/istanbul
+[nyc]: https://github.com/istanbuljs/nyc

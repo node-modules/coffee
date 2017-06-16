@@ -53,7 +53,7 @@ describe('coffee', function() {
     setTimeout(function() {
       assert(c.complete);
       done();
-    }, 50000);
+    }, 1000);
   });
 
   it('should ignore specified expect key', function(done) {
@@ -80,7 +80,7 @@ describe('coffee', function() {
       assert(!spy1.called);
       assert(spy2.called);
       done();
-    }, 50000);
+    }, 1000);
   });
 
   it('should .debug(1)', function(done) {
@@ -442,6 +442,11 @@ function run(type) {
       assert(err);
       done();
     });
+  });
+
+  it('should return this when call coverage', function() {
+    const c = coffee.spawn('cat');
+    assert(c.coverage() === c);
   });
 
   function call(filepath) {

@@ -1,14 +1,6 @@
 'use strict';
 
-var path = require('path');
-var findIstanbul = require('./lib/find_istanbul');
 var Coffee = require('./lib/coffee');
-
-// child process always use the cwd of the main process
-process.env.coffee_cwd = process.cwd();
-// inject script supporting istanbul with multiple process
-process.env.istanbul_bin_path = findIstanbul();
-require('childprocess').inject(path.join(__dirname, 'lib/inject_istanbul.js'));
 
 exports.Coffee = Coffee;
 
