@@ -2,7 +2,7 @@
   "name": "a",
   "scripts": {
     "clean": "rm -rf coverage",
-    "cov": "../../../node_modules/.bin/nyc npm test",
+    "cov": "nyc npm test",
     "test": "npm run clean && mocha -t 10000"
   }
 }

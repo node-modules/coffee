@@ -4,6 +4,7 @@
   "description": "Test command line on nodejs",
   "main": "index.js",
   "dependencies": {
+    "cross-spawn": "^5.1.0",
     "debug": "^2.6.8"
   },
   "devDependencies": {

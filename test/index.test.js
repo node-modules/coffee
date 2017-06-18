@@ -175,7 +175,7 @@ describe('coffee', function() {
       method: 'fork',
       cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
-    .debug()
+    // .debug()
     .debug(false)
     .end(function() {
       assert(stdout === '');
@@ -232,6 +232,7 @@ describe('coffee', function() {
 
     it('should receive data from stdin', function(done) {
       coffee.spawn('cat')
+      // .debug()
       .write('1\n')
       .write('2')
       .expect('stdout', '1\n2')
@@ -382,8 +383,8 @@ function run(type) {
   });
 
   it('should assert error', function(done) {
-    var cmd = path.join(fixtures, 'unknown.sh');
-    call('unknown')
+    var cmd = path.join(fixtures, 'unknown.js');
+    call('unknown.js')
     .debug()
     .expect('error', /ENOENT/)
     .expect('error', 'spawn ' + cmd + ' ENOENT')
@@ -450,7 +451,11 @@ function run(type) {
   });
 
   function call(filepath) {
-    filepath += type === 'fork' ? '.js' : '.sh';
+    if (!path.extname(filepath)) {
+      let ext = type === 'fork' ? '.js' : '.sh';
+      if (process.platform === 'win32') ext = '.js';
+      filepath += ext;
+    }
     return coffee[type](path.join(fixtures, filepath));
   }
 }

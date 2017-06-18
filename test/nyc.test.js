@@ -8,7 +8,7 @@ describe('coffee with nyc', () => {
   it('should show coverage', function(done) {
     const cwd = path.join(__dirname, 'fixtures/nyc');
     coffee.spawn('npm', [ 'run', 'cov' ], { cwd })
-      // .debug()
+      .debug()
       .expect('code', 0)
       .expect('stdout', / child.js {6}| {6}100 /)
       .expect('stdout', / grandchild.js | {6}100 /)
