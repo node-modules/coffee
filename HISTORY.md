@@ -1,4 +1,9 @@
 
+4.0.1 / 2017-06-19
+==================
+
+  * fix: using cross-spawn instead of spawn on Windows (#58)
+
 4.0.0 / 2017-06-16
 ==================
 
