@@ -11,7 +11,7 @@ describe('coffee.beforeScript()', () => {
     const cmd = path.join(fixtures, 'cli.js');
     return coffee.fork(cmd)
       .beforeScript(mockScript)
-      // .debug()
+      .debug()
       .expect('stdout', /homedir = \/some\/home\/dir/)
       .expect('code', 0)
       .end();
@@ -20,7 +20,7 @@ describe('coffee.beforeScript()', () => {
   it('should add before hook script on non-shebang cli script', () => {
     const cmd = path.join(fixtures, 'cli-no-shebang.js');
     return coffee.fork(cmd)
-      // .debug()
+      .debug()
       .beforeScript(mockScript)
       .expect('stdout', /homedir = \/some\/home\/dir/)
       .expect('code', 0)
