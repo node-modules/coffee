@@ -7,7 +7,7 @@ const coffee = require('..');
 const fixtures = path.join(__dirname, 'fixtures/mock-os');
 const mockScript = path.join(fixtures, 'mock.js');
 
-describe.only('coffee.beforeScript()', () => {
+describe('coffee.beforeScript()', () => {
   it('should add before hook script on shebang cli bin', () => {
     const cmd = path.join(fixtures, 'cli.js');
     return coffee.fork(cmd)
