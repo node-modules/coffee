@@ -1,5 +1,6 @@
 'use strict';
 
+const assert = require('assert');
 const path = require('path');
 const coffee = require('..');
 
@@ -25,5 +26,20 @@ describe('coffee.beforeScript()', () => {
       .expect('stdout', /homedir = \/some\/home\/dir/)
       .expect('code', 0)
       .end();
+  });
+
+  it('should throw error on spawn', () => {
+    const cmd = path.join(fixtures, 'cli.js');
+    assert.throws(() => {
+      coffee.spawn(cmd)
+        .beforeScript(mockScript);
+    }, /can\'t set beforeScript on spawn process/);
+  });
+
+  it('should throw error on fork not absolute path cmd', () => {
+    assert.throws(() => {
+      coffee.fork('coffee')
+        .beforeScript(mockScript);
+    }, /can't set beforeScript, coffee must be absolute path/);
   });
 });
