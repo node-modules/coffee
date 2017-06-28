@@ -115,6 +115,10 @@ Alternative you can use `COFFEE_DEBUG` env.
 
 If you set false, coffee will not generate coverage.json, default: true.
 
+#### coffee.beforeScript(scriptFile)
+
+Add a hook script before fork child process run.
+
 ## LISENCE
 
 Copyright (c) 2017 popomore. Licensed under the MIT license.
