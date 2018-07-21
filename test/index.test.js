@@ -61,9 +61,9 @@ describe('coffee', function() {
       method: 'fork',
       cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
-    .expect('unacceptkey', '1')
-    .notExpect('unacceptkey', '1')
-    .end(done);
+      .expect('unacceptkey', '1')
+      .notExpect('unacceptkey', '1')
+      .end(done);
   });
 
   it('should set the callback of the latest end method', function(done) {
@@ -100,12 +100,12 @@ describe('coffee', function() {
       method: 'fork',
       cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
-    .debug(1)
-    .end(function() {
-      assert(stdout === 'write to stdout\n');
-      assert(stderr === '');
-      done();
-    });
+      .debug(1)
+      .end(function() {
+        assert(stdout === 'write to stdout\n');
+        assert(stderr === '');
+        done();
+      });
   });
 
   it('should .debug(2)', function(done) {
@@ -125,12 +125,12 @@ describe('coffee', function() {
       method: 'fork',
       cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
-    .debug(2)
-    .end(function() {
-      assert(stdout === '');
-      assert(stderr === 'stderr\n');
-      done();
-    });
+      .debug(2)
+      .end(function() {
+        assert(stdout === '');
+        assert(stderr === 'stderr\n');
+        done();
+      });
   });
 
   it('should debug when COFFEE_DEBUG', function(done) {
@@ -151,11 +151,11 @@ describe('coffee', function() {
       method: 'fork',
       cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
-    .end(function() {
-      assert(stdout === 'write to stdout\n');
-      assert(stderr === '');
-      done();
-    });
+      .end(function() {
+        assert(stdout === 'write to stdout\n');
+        assert(stderr === '');
+        done();
+      });
   });
 
   it('should .debug(false)', function(done) {
@@ -176,12 +176,12 @@ describe('coffee', function() {
       cmd: path.join(fixtures, 'stdout-stderr.js'),
     })
     // .debug()
-    .debug(false)
-    .end(function() {
-      assert(stdout === '');
-      assert(stderr === '');
-      done();
-    });
+      .debug(false)
+      .end(function() {
+        assert(stdout === '');
+        assert(stderr === '');
+        done();
+      });
   });
 
   describe('fork', function() {
@@ -189,41 +189,52 @@ describe('coffee', function() {
 
     it('should receive data from stdin', function(done) {
       coffee.fork(path.join(fixtures, 'stdin.js'))
-      .write('1\n')
-      .write('2')
-      .expect('stdout', '1\n2')
-      .expect('code', 0)
-      .end(done);
+        .write('1\n')
+        .write('2')
+        .expect('stdout', '1\n2')
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('should write data when receive message', function(done) {
+      coffee.fork(path.join(fixtures, 'prompt.js'))
+        .debug()
+        .waitForPrompt()
+        .write('tz')
+        .write('2')
+        .expect('stdout', 'What\'s your name? hi, tz\nHow many coffee do you want? here is your 2 coffee\n')
+        .expect('code', 0)
+        .end(done);
     });
 
     it('should fork with autoCoverage = true', function(done) {
       coffee.fork(path.join(fixtures, 'stdin.js'), null, {
         autoCoverage: true,
       })
-      .write('1\n')
-      .write('2')
-      .expect('stdout', '1\n2')
-      .expect('code', 0)
-      .end(function(err) {
-        assert(!err);
-        assert(this.proc);
-        done();
-      });
+        .write('1\n')
+        .write('2')
+        .expect('stdout', '1\n2')
+        .expect('code', 0)
+        .end(function(err) {
+          assert(!err);
+          assert(this.proc);
+          done();
+        });
     });
 
     it('should support fork(cmd, opt)', function(done) {
       coffee.fork(path.join(fixtures, 'stdin.js'), {
         autoCoverage: true,
       })
-      .write('1\n')
-      .write('2')
-      .expect('stdout', '1\n2')
-      .expect('code', 0)
-      .end(function(err) {
-        assert(!err);
-        assert(this.proc);
-        done();
-      });
+        .write('1\n')
+        .write('2')
+        .expect('stdout', '1\n2')
+        .expect('code', 0)
+        .end(function(err) {
+          assert(!err);
+          assert(this.proc);
+          done();
+        });
     });
   });
 
@@ -233,11 +244,11 @@ describe('coffee', function() {
     it('should receive data from stdin', function(done) {
       coffee.spawn('cat')
       // .debug()
-      .write('1\n')
-      .write('2')
-      .expect('stdout', '1\n2')
-      .expect('code', 0)
-      .end(done);
+        .write('1\n')
+        .write('2')
+        .expect('stdout', '1\n2')
+        .expect('code', 0)
+        .end(done);
     });
   });
 });
@@ -246,99 +257,99 @@ function run(type) {
 
   it('should work', function(done) {
     call('stdout-stderr')
-    .expect('stdout', 'write to stdout\n')
-    .expect('stderr', 'stderr\n')
-    .expect('code', 0)
-    .end(done);
+      .expect('stdout', 'write to stdout\n')
+      .expect('stderr', 'stderr\n')
+      .expect('code', 0)
+      .end(done);
   });
 
   it('should work with debug', function(done) {
     call('stdout-stderr')
-    .debug()
-    .expect('stdout', 'write to stdout\n')
-    .expect('stderr', 'stderr\n')
-    .expect('code', 0)
-    .end(done);
+      .debug()
+      .expect('stdout', 'write to stdout\n')
+      .expect('stderr', 'stderr\n')
+      .expect('code', 0)
+      .end(done);
   });
 
   it('should work that assert in end', function(done) {
     call('stdout-stderr')
-    .end(function(err, res) {
-      assert(!err);
-      assert(res.stdout.includes('write to stdout\n'));
-      assert(res.stderr.includes('stderr\n'));
-      assert(res.code === 0);
-      done();
-    });
+      .end(function(err, res) {
+        assert(!err);
+        assert(res.stdout.includes('write to stdout\n'));
+        assert(res.stderr.includes('stderr\n'));
+        assert(res.code === 0);
+        done();
+      });
   });
 
   it('should not match on different type', function(done) {
     call('stdout-stderr')
-    .expect('code', '0')
-    .end(function(err) {
-      assert(err);
-      assert(
-        err.message === 'should match code expected `0(String)` but actual `0(Number)`'
-      );
-      done();
-    });
+      .expect('code', '0')
+      .end(function(err) {
+        assert(err);
+        assert(
+          err.message === 'should match code expected `0(String)` but actual `0(Number)`'
+        );
+        done();
+      });
   });
 
   describe('expect', function() {
 
     it('should match stdout, stderr, code', function(done) {
       call('stdout-stderr')
-      .expect('stdout', 'write to stdout\n')
-      .expect('stderr', 'stderr\n')
-      .expect('code', 0)
-      .end(done);
+        .expect('stdout', 'write to stdout\n')
+        .expect('stderr', 'stderr\n')
+        .expect('code', 0)
+        .end(done);
     });
 
     it('should not match on strict equal', function(done) {
       call('stdout-stderr')
-      .expect('stdout', 'stdout')
-      .end(function(err) {
-        assert(err);
-        assert(
-          err.message === 'should match stdout expected `stdout(String)` but actual `write to stdout\\n(String)`'
-        );
-        done();
-      });
+        .expect('stdout', 'stdout')
+        .end(function(err) {
+          assert(err);
+          assert(
+            err.message === 'should match stdout expected `stdout(String)` but actual `write to stdout\\n(String)`'
+          );
+          done();
+        });
     });
 
     it('should match with RegExp', function(done) {
       call('stdout-stderr')
-      .expect('stdout', /stdout/)
-      .expect('stdout', /write /)
-      .expect('stderr', /stderr/)
-      .expect('stderr', /err/)
-      .end(done);
+        .expect('stdout', /stdout/)
+        .expect('stdout', /write /)
+        .expect('stderr', /stderr/)
+        .expect('stderr', /err/)
+        .end(done);
     });
 
     it('should not match with RegExp', function(done) {
       call('stdout-stderr')
-      .expect('stdout', /write/)
-      .expect('stdout', /nothing/)
-      .end(function(err) {
-        assert(err);
-        assert(
-          err.message === 'should match stdout expected `/nothing/(RegExp)` but actual `write to stdout\\n(String)`'
-        );
-        done();
-      });
+        .expect('stdout', /write/)
+        .expect('stdout', /nothing/)
+        .end(function(err) {
+          assert(err);
+          assert(
+            err.message === 'should match stdout expected `/nothing/(RegExp)` but actual `write to stdout\\n(String)`'
+          );
+          done();
+        });
     });
 
     it('should match with Array', function(done) {
       call('stdout-stderr')
-      .expect('stdout', [ /write/, /to/, /stdout/ ])
-      .end(done);
+        .expect('stdout', [ /write/, /to/, /stdout/ ])
+        .end(done);
     });
 
     it('should exit with code 1', function(done) {
       call('process-exit')
-      .expect('stdout', 'exit 1')
-      .expect('code', 1)
-      .end(done);
+        .expect('stdout', 'exit 1')
+        .expect('code', 1)
+        .end(done);
     });
 
   });
@@ -347,37 +358,37 @@ function run(type) {
 
     it('should match stdout', function(done) {
       call('stdout-stderr')
-      .notExpect('stdout', 'write to stdout\n')
-      .end(function(err) {
-        assert(
-          err.message === 'should not match stdout expected `write to stdout\\n(String)` but actual `write to stdout\\n(String)`'
-        );
-        done();
-      });
+        .notExpect('stdout', 'write to stdout\n')
+        .end(function(err) {
+          assert(
+            err.message === 'should not match stdout expected `write to stdout\\n(String)` but actual `write to stdout\\n(String)`'
+          );
+          done();
+        });
     });
 
     it('should not match stdout', function(done) {
       call('stdout-stderr')
-      .notExpect('stdout', 'stdout')
-      .end(done);
+        .notExpect('stdout', 'stdout')
+        .end(done);
     });
 
     it('should not match with RegExp', function(done) {
       call('stdout-stderr')
-      .notExpect('stdout', /nothing/)
-      .end(done);
+        .notExpect('stdout', /nothing/)
+        .end(done);
     });
 
     it('should not match with Array', function(done) {
       call('stdout-stderr')
-      .notExpect('stdout', [ /nothing/ ])
-      .end(done);
+        .notExpect('stdout', [ /nothing/ ])
+        .end(done);
     });
 
     it('should exit with code 1', function(done) {
       call('process-exit')
-      .notExpect('code', 0)
-      .end(done);
+        .notExpect('code', 0)
+        .end(done);
     });
 
   });
@@ -385,11 +396,11 @@ function run(type) {
   it('should assert error', function(done) {
     var cmd = path.join(fixtures, 'unknown.js');
     call('unknown.js')
-    .debug()
-    .expect('error', /ENOENT/)
-    .expect('error', 'spawn ' + cmd + ' ENOENT')
-    .expect('error', new Error('spawn ' + cmd + ' ENOENT'))
-    .end(done);
+      .debug()
+      .expect('error', /ENOENT/)
+      .expect('error', 'spawn ' + cmd + ' ENOENT')
+      .expect('error', new Error('spawn ' + cmd + ' ENOENT'))
+      .end(done);
   });
 
   it.skip('should receive arguments', function() {
@@ -398,51 +409,51 @@ function run(type) {
 
   it('should expect after end', function(done) {
     call('stdout-stderr')
-    .end(function() {
-      this.expect('stdout', 'write to stdout\n');
-      this.notExpect('stdout', 'write to stderr\n');
-      this.expect('stderr', 'stderr\n');
-      this.notExpect('stderr', 'stdout\n');
-      done();
-    });
+      .end(function() {
+        this.expect('stdout', 'write to stdout\n');
+        this.notExpect('stdout', 'write to stderr\n');
+        this.expect('stderr', 'stderr\n');
+        this.notExpect('stderr', 'stdout\n');
+        done();
+      });
   });
 
   it('should not expect after end', function(done) {
     call('stdout-stderr')
-    .end(function() {
-      var err;
-      try {
-        this.expect('stdout', 'write to stderr');
-      } catch (e) {
-        err = e;
-      }
-      assert(
-        err.message === 'should match stdout expected `write to stderr(String)` but actual `write to stdout\\n(String)`'
-      );
-      done();
-    });
+      .end(function() {
+        var err;
+        try {
+          this.expect('stdout', 'write to stderr');
+        } catch (e) {
+          err = e;
+        }
+        assert(
+          err.message === 'should match stdout expected `write to stderr(String)` but actual `write to stdout\\n(String)`'
+        );
+        done();
+      });
   });
 
   it('should support promise', function(done) {
     call('stdout-stderr')
-    .expect('stdout', 'write to stdout\n')
-    .expect('stderr', 'stderr\n')
-    .expect('code', 0)
-    .end()
-    .then(() => done())
-    .catch(done);
+      .expect('stdout', 'write to stdout\n')
+      .expect('stderr', 'stderr\n')
+      .expect('code', 0)
+      .end()
+      .then(() => done())
+      .catch(done);
   });
 
   it('should support promise when error', function(done) {
     call('stdout-stderr')
-    .expect('stdout', 'write to stdout\n')
-    .expect('stderr', 'stderr\n')
-    .expect('code', 1)
-    .end()
-    .catch(function(err) {
-      assert(err);
-      done();
-    });
+      .expect('stdout', 'write to stdout\n')
+      .expect('stderr', 'stderr\n')
+      .expect('code', 1)
+      .end()
+      .catch(function(err) {
+        assert(err);
+        done();
+      });
   });
 
   it('should return this when call coverage', function() {
