@@ -10,8 +10,8 @@
   "devDependencies": {
     "autod": "^3.0.1",
     "egg-ci": "^1.8.0",
-    "eslint": "^5.2.0",
-    "eslint-config-egg": "^7.0.0",
+    "eslint": "^3.19.0",
+    "eslint-config-egg": "^4.1.0",
     "mm": "^2.2.2",
     "mocha": "2",
     "nyc": "^11.0.2",

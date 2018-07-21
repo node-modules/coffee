@@ -101,8 +101,8 @@ If you set false, coffee will write stdin immediately, otherwise will wait for `
 ```js
 coffee.fork('/path/to/cli', ['abcdefg'])
 .waitForPrompt()
-.write('tz')
-.write('2');
+.write('tz\n')
+.write('2\n');
 .end(done);
 ```
 

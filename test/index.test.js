@@ -198,10 +198,10 @@ describe('coffee', function() {
 
     it('should write data when receive message', function(done) {
       coffee.fork(path.join(fixtures, 'prompt.js'))
-        .debug()
+        // .debug()
         .waitForPrompt()
-        .write('tz')
-        .write('2')
+        .write('tz\n')
+        .write('2\n')
         .expect('stdout', 'What\'s your name? hi, tz\nHow many coffee do you want? here is your 2 coffee\n')
         .expect('code', 0)
         .end(done);
