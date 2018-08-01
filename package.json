@@ -4,15 +4,15 @@
   "description": "Test command line on nodejs",
   "main": "index.js",
   "dependencies": {
-    "cross-spawn": "^5.1.0",
-    "debug": "^2.6.8"
+    "cross-spawn": "^6.0.5",
+    "debug": "^3.1.0"
   },
   "devDependencies": {
-    "autod": "^2.8.0",
-    "egg-ci": "^1.6.0",
+    "autod": "^3.0.1",
+    "egg-ci": "^1.8.0",
     "eslint": "^3.19.0",
     "eslint-config-egg": "^4.1.0",
-    "mm": "^2.1.0",
+    "mm": "^2.2.2",
     "mocha": "2",
     "nyc": "^11.0.2",
     "spy": "^1.0.0"

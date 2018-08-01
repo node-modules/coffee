@@ -94,6 +94,42 @@ The opposite assertion of `expect`.
 
 Write data to stdin, see example above.
 
+#### coffee.waitForPrompt(bool)
+
+If you set false, coffee will write stdin immediately, otherwise will wait for `prompt` message.
+
+```js
+coffee.fork('/path/to/cli', ['abcdefg'])
+.waitForPrompt()
+.write('tz\n')
+.write('2\n');
+.end(done);
+```
+
+cli process should emit `prompt` message:
+
+```js
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+function ask(q, callback) {
+  process.send({ type: 'prompt' });
+  rl.question(q, callback);
+}
+
+ask('What\'s your name? ', answer => {
+  console.log(`hi, ${answer}`);
+  ask('How many coffee do you want? ', answer => {
+    console.log(`here is your ${answer} coffee`);
+    rl.close();
+  });
+});
+```
+
 #### coffee.end(callback)
 
 Callback will be called after completing the assertion, the first argument is Error if throw exception.
