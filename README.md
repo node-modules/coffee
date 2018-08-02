@@ -5,8 +5,8 @@ Test command line on Node.js.
 ---
 
 [![NPM version](https://img.shields.io/npm/v/coffee.svg?style=flat)](https://npmjs.org/package/coffee)
-[![Build Status](https://img.shields.io/travis/popomore/coffee.svg?style=flat)](https://travis-ci.org/popomore/coffee)
-[![codecov.io](https://img.shields.io/codecov/c/github/popomore/coffee.svg?style=flat)](http://codecov.io/github/popomore/coffee?branch=master)
+[![Build Status](https://img.shields.io/travis/node-modules/coffee.svg?style=flat)](https://travis-ci.org/node-modules/coffee)
+[![codecov.io](https://img.shields.io/codecov/c/github/node-modules/coffee.svg?style=flat)](http://codecov.io/github/node-modules/coffee?branch=master)
 [![NPM downloads](http://img.shields.io/npm/dm/coffee.svg?style=flat)](https://npmjs.org/package/coffee)
 
 ## Install
@@ -157,7 +157,7 @@ Add a hook script before fork child process run.
 
 ## LISENCE
 
-Copyright (c) 2017 popomore. Licensed under the MIT license.
+Copyright (c) 2017 node-modules. Licensed under the MIT license.
 
 
 [nyc]: https://github.com/istanbuljs/nyc
