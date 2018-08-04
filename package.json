@@ -19,9 +19,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/popomore/coffee.git"
+    "url": "git://github.com/node-modules/coffee.git"
   },
-  "homepage": "https://github.com/popomore/coffee",
+  "homepage": "https://github.com/node-modules/coffee",
   "author": "popomore <sakura9515@gmail.com>",
   "keywords": [
     "test",
