@@ -3,7 +3,7 @@
 ==================
 
 **features**
-  * [[`b0e16e0`](http://github.com/popomore/coffee/commit/b0e16e00aa903b53950e28606959719df68539cc)] - feat: support prompt (#60) (TZ | 天猪 <<atian25@qq.com>>)
+  * [[`b0e16e0`](http://github.com/node-modules/coffee/commit/b0e16e00aa903b53950e28606959719df68539cc)] - feat: support prompt (#60) (TZ | 天猪 <<atian25@qq.com>>)
 
 4.1.0 / 2017-06-29
 ==================
