@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "cross-spawn": "^6.0.5",
-    "debug": "^3.1.0"
+    "debug": "^3.1.0",
+    "is-type-of": "^1.2.0"
   },
   "devDependencies": {
     "autod": "^3.0.1",

@@ -9,7 +9,7 @@ var Coffee = coffee.Coffee;
 
 var fixtures = path.join(__dirname, 'fixtures');
 
-describe('coffee', function() {
+describe('test/extends.test.js', function() {
 
   afterEach(mm.restore);
 
@@ -351,6 +351,7 @@ function run(type) {
         .expect('code', 1)
         .end(done);
     });
+
   });
 
   describe('notExpect', function() {
