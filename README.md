@@ -134,6 +134,16 @@ ask('What\'s your name? ', answer => {
 
 Callback will be called after completing the assertion, the first argument is Error if throw exception.
 
+```js
+coffee.fork('path/to/cli')
+  .expect('stdout', 'abcdefg')
+  .end(done);
+
+// recommended to left undefind and use promise.
+const { stdout, stderr, code } = await coffee.fork('path/to/cli').end();
+assert(stdout.includes(abcdefg));
+```
+
 #### coffee.debug(level)
 
 Write data to process.stdout and process.stderr for debug
@@ -165,7 +175,10 @@ you could add your custom rule, see `test/fixtures/extendable` for more details.
 const { Coffee, Rule } = require('coffee');
 
 class FileRule extends Rule {
-
+  assert(actual, expected, message) {
+    // do sth
+    return super.assert(content, pattern, message);
+  }
 }
 
 class MyCoffee extends Coffee {
