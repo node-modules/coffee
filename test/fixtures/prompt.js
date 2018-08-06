@@ -2,6 +2,8 @@
 
 'use strict';
 
+process.send('hi, coffee');
+
 const readline = require('readline');
 
 const rl = readline.createInterface({

@@ -57,13 +57,19 @@ describe('coffee', () => {
   });
 
   it('should ignore specified expect key', done => {
-    new Coffee({
-      method: 'fork',
-      cmd: path.join(fixtures, 'stdout-stderr.js'),
-    })
-      .expect('unacceptkey', '1')
-      .notExpect('unacceptkey', '1')
-      .end(done);
+    try {
+      new Coffee({
+        method: 'fork',
+        cmd: path.join(fixtures, 'stdout-stderr.js'),
+      })
+        .expect('unacceptkey', '1')
+        .notExpect('unacceptkey', '1')
+        .end();
+    } catch (err) {
+      assert(err.message.includes('unknown rule type: unacceptkey'));
+      return done();
+    }
+    done('should run exec here');
   });
 
   it('should set the callback of the latest end method', done => {

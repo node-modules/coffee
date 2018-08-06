@@ -4,7 +4,8 @@ const fs = require('fs');
 const Rule = require('../../..').Rule;
 
 class FileRule extends Rule {
-  // expect('file', 'package.json', /x = y/)
+  // expect('file', 'README', /x = y/)
+  // expect('file', 'package.json')
   assert(actual, expected, message) {
     const { file, pattern } = expected;
     // check file exists

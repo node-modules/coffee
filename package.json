@@ -26,6 +26,7 @@
   "homepage": "https://github.com/node-modules/coffee",
   "author": "popomore <sakura9515@gmail.com>",
   "keywords": [
+    "cli",
     "test",
     "shell",
     "spawn",
@@ -43,9 +44,10 @@
   "scripts": {
     "autod": "autod",
     "lint": "eslint .",
-    "test": "egg-bin test",
+    "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
+    "test-local": "egg-bin test",
     "cov": "egg-bin cov",
-    "ci": "npm run lint && npm run cov"
+    "ci": "npm run lint && egg-bin pkgfiles --check && npm run cov"
   },
   "files": [
     "index.js",

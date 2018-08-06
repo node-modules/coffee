@@ -155,6 +155,27 @@ If you set false, coffee will not generate coverage.json, default: true.
 
 Add a hook script before fork child process run.
 
+### coffee.Rule
+
+Assertion Rule
+
+you could add your custom rule, see `test/fixtures/extendable` for more details.
+
+```js
+const { Coffee, Rule } = require('coffee');
+
+class FileRule extends Rule {
+
+}
+
+class MyCoffee extends Coffee {
+  constructor(...args) {
+    super(...args);
+    this.RuleMapping.file = FileRule;
+  }
+}
+```
+
 ## LISENCE
 
 Copyright (c) 2017 node-modules. Licensed under the MIT license.
