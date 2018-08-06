@@ -2,7 +2,7 @@
 
 'use strict';
 
-var count = '';
+let count = '';
 process.stdin.on('data', function(data) {
   count += data.toString();
 });

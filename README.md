@@ -11,8 +11,8 @@ Test command line on Node.js.
 
 ## Install
 
-```
-$ npm install coffee -g
+```bash
+$ npm i coffee --save-dev
 ```
 
 ## Usage
@@ -22,13 +22,13 @@ Coffee is useful for test command line in test frammework (like Mocha).
 ```js
 describe('cat', function() {
   it('should concat input', function(done) {
-    var coffee = require('coffee');
+    const coffee = require('coffee');
     coffee.spawn('cat')
-    .write('1')
-    .write('2')
-    .expect('stdout', '12')
-    .expect('code', 0)
-    .end(done);
+      .write('1')
+      .write('2')
+      .expect('stdout', '12')
+      .expect('code', 0)
+      .end(done);
   })
 })
 ```
@@ -36,11 +36,11 @@ describe('cat', function() {
 You can also use fork for spawning Node processes.
 
 ```js
-coffee.fork('/path/to/file.js', ['args '])
-.expect('stdout', '12\n')
-.expect('stderr', '34\n')
-.expect('code', 0)
-.end(done);
+coffee.fork('/path/to/file.js', [ 'args' ])
+  .expect('stdout', '12\n')
+  .expect('stderr', '34\n')
+  .expect('code', 0)
+  .end(done);
 ```
 
 In file.js
@@ -68,7 +68,7 @@ Run command using `child_process.fork`, then return `Coffee` instance.
 
 Arguments see [child_process.fork](http://nodejs.org/api/child_process.html#child_process_child_process_fork_modulepath_args_options)
 
-### Coffee
+### coffee.Coffee
 
 Assertion object
 
@@ -77,11 +77,11 @@ Assertion object
 Assert type with expected value, expected value can be string, regular expression, and array.
 
 ```js
-coffee.spawn('echo', ['abcdefg'])
-.expect('stdout', 'abcdefg')
-.expect('stdout', /^abc/)
-.expect('stdout', ['abcdefg', /abc/])
-.end(done);
+coffee.spawn('echo', [ 'abcdefg' ])
+  .expect('stdout', 'abcdefg')
+  .expect('stdout', /^abc/)
+  .expect('stdout', [ 'abcdefg', /abc/ ])
+  .end(done);
 ```
 
 Accept type: `stdout`, `stderr`, `code`, `error`
@@ -99,11 +99,11 @@ Write data to stdin, see example above.
 If you set false, coffee will write stdin immediately, otherwise will wait for `prompt` message.
 
 ```js
-coffee.fork('/path/to/cli', ['abcdefg'])
-.waitForPrompt()
-.write('tz\n')
-.write('2\n');
-.end(done);
+coffee.fork('/path/to/cli', [ 'abcdefg' ])
+  .waitForPrompt()
+  .write('tz\n')
+  .write('2\n');
+  .end(done);
 ```
 
 cli process should emit `prompt` message:
@@ -158,6 +158,5 @@ Add a hook script before fork child process run.
 ## LISENCE
 
 Copyright (c) 2017 node-modules. Licensed under the MIT license.
-
 
 [nyc]: https://github.com/istanbuljs/nyc

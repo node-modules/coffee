@@ -1,8 +1,10 @@
 'use strict';
 
-var Coffee = require('./lib/coffee');
+const Coffee = require('./lib/coffee');
+const Rule = require('./lib/rule');
 
 exports.Coffee = Coffee;
+exports.Rule = Rule;
 
 /**
  * fork a child process to test
