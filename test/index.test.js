@@ -16,17 +16,17 @@ describe('coffee', () => {
   it('should pass cmd and method', () => {
     assert.throws(() => {
       new Coffee();
-    }, 'should specify method and cmd');
+    }, /should specify method and cmd/);
     assert.throws(() => {
       new Coffee({
         cmd: 'echo',
       });
-    }, 'should specify method and cmd');
+    }, /should specify method and cmd/);
     assert.throws(() => {
       new Coffee({
         method: 'spawn',
       });
-    }, 'should specify method and cmd');
+    }, /should specify method and cmd/);
   });
 
   it('should not call write after call end', done => {
