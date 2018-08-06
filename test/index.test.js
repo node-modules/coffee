@@ -285,7 +285,7 @@ describe('coffee', () => {
         .end(err => {
           assert(!!err);
           console.log(err.message);
-          assert(new RegExp(`should exists file ${file}`).test(err.message));
+          assert(`should exists file ${file}` === err.message);
           done();
         });
     });
