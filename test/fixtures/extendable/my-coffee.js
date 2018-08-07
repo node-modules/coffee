@@ -7,7 +7,7 @@ class MyCoffee extends Coffee {
 
   constructor(...args) {
     super(...args);
-    this.RuleMapping.file = FileRule;
+    this.setRule('file', FileRule);
   }
 
   expectFile(file, pattern) {
