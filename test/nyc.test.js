@@ -5,7 +5,7 @@ const coffee = require('..');
 
 describe('coffee with nyc', () => {
 
-  it('should show coverage', function(done) {
+  it('should show coverage', done => {
     const cwd = path.join(__dirname, 'fixtures/nyc');
     coffee.spawn('npm', [ 'run', 'cov' ], { cwd })
       .debug()

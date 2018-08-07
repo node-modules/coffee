@@ -5,15 +5,17 @@
   "main": "index.js",
   "dependencies": {
     "cross-spawn": "^6.0.5",
-    "debug": "^3.1.0"
+    "debug": "^3.1.0",
+    "is-type-of": "^1.2.0"
   },
   "devDependencies": {
     "autod": "^3.0.1",
+    "egg-bin": "^4.8.1",
     "egg-ci": "^1.8.0",
-    "eslint": "^3.19.0",
-    "eslint-config-egg": "^4.1.0",
+    "eslint": "^5.3.0",
+    "eslint-config-egg": "^7.0.0",
     "mm": "^2.2.2",
-    "mocha": "2",
+    "mocha": "^5.2.0",
     "nyc": "^11.0.2",
     "spy": "^1.0.0"
   },
@@ -24,6 +26,7 @@
   "homepage": "https://github.com/node-modules/coffee",
   "author": "popomore <sakura9515@gmail.com>",
   "keywords": [
+    "cli",
     "test",
     "shell",
     "spawn",
@@ -33,17 +36,18 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">= 4.0.0"
+    "node": ">= 6.0.0"
   },
   "ci": {
-    "version": "4, 6, 8"
+    "version": "6, 8, 10"
   },
   "scripts": {
     "autod": "autod",
     "lint": "eslint .",
-    "test": "mocha -R spec -t 80000 test/*.js",
-    "cov": "nyc -r json -r lcov -r text-summary npm test",
-    "ci": "npm run lint && npm run cov"
+    "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "ci": "npm run lint && egg-bin pkgfiles --check && npm run cov"
   },
   "files": [
     "index.js",

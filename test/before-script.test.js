@@ -28,6 +28,16 @@ describe('coffee.beforeScript()', () => {
       .end();
   });
 
+  it('should add before hook script with execArgv', () => {
+    const cmd = path.join(fixtures, 'cli.js');
+    return coffee.fork(cmd, [], { execArgv: [ '--inspect' ] })
+      .beforeScript(mockScript)
+      .debug()
+      .expect('stdout', /homedir = \/some\/home\/dir/)
+      .expect('code', 0)
+      .end();
+  });
+
   it('should throw error on spawn', () => {
     const cmd = path.join(fixtures, 'cli.js');
     assert.throws(() => {
