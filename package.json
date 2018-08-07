@@ -1,7 +1,7 @@
 {
   "name": "coffee",
-  "version": "5.0.0",
-  "description": "Test command line on nodejs",
+  "version": "5.0.1",
+  "description": "Test command line on Node.js.",
   "main": "index.js",
   "dependencies": {
     "cross-spawn": "^6.0.5",
