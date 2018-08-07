@@ -1,4 +1,11 @@
 
+5.0.0 / 2018-08-07
+==================
+
+**others**
+  * [[`f7309da`](http://github.com/node-modules/coffee/commit/f7309da0eeb1e400f704024daaab456756890820)] - refactor: [BREAKING] make coffee more extendable (#62) (TZ | 天猪 <<atian25@qq.com>>)
+  * [[`728418b`](http://github.com/node-modules/coffee/commit/728418b91799ed8c4b6865ca78951ef7288829e6)] - chore: migrate to node-modules (#61) (Haoliang Gao <<sakura9515@gmail.com>>)
+
 4.2.0 / 2018-08-01
 ==================
 
