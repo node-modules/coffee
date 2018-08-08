@@ -177,7 +177,7 @@ const { Coffee, Rule } = require('coffee');
 class FileRule extends Rule {
   assert(actual, expected, message) {
     // do sth
-    return super.assert(content, pattern, message);
+    return super.assert(fs.existsSync(expected), true, `should exists file ${expected}`);
   }
 }
 
@@ -186,7 +186,18 @@ class MyCoffee extends Coffee {
     super(...args);
     this.setRule('file', FileRule);
   }
+
+  expectFile(expected) {
+    this._addAssertion({
+      type: 'file',
+      expected,
+    });
+    return this;
+  }
 }
+
+// Usage
+.expectFile('README.md');
 ```
 
 ## LISENCE
