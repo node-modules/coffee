@@ -5,6 +5,7 @@ const path = require('path');
 const spy = require('spy');
 const mm = require('mm');
 const coffee = require('..');
+const show = require('../lib/show');
 const Coffee = coffee.Coffee;
 
 const fixtures = path.join(__dirname, 'fixtures');
@@ -272,9 +273,6 @@ describe('coffee', () => {
     it('should work', done => {
       fork(path.join(fixtures, 'stdout-stderr.js'))
         .expectFile(path.join(fixtures, 'README.md'))
-        .notExpectFile(path.join(fixtures, 'no-exist'))
-        .expectFile(path.join(fixtures, 'README.md'), /one coffee/)
-        .notExpectFile(path.join(fixtures, 'README.md'), /not exist/)
         .end(done);
     });
 
@@ -289,6 +287,15 @@ describe('coffee', () => {
           done();
         });
     });
+  });
+
+  it('should print well', () => {
+    assert(show('coffee\negg') === 'coffee\\negg(String)');
+    assert(show(Buffer.from('coffee\negg')) === 'coffee\\negg(Uint8Array)');
+    assert(show(/coffee/) === '/coffee/(RegExp)');
+    assert(show({ name: 'coffee' }) === '{"name":"coffee"}(Object)');
+    assert(show([ 1, 2, 3 ]) === '[1,2,3](Array)');
+    assert(show(1 === '1(Number)'));
   });
 });
 

@@ -10,33 +10,11 @@ class MyCoffee extends Coffee {
     this.setRule('file', FileRule);
   }
 
-  expectFile(file, pattern) {
+  expectFile(expected) {
     this._addAssertion({
       type: 'file',
-      expected: {
-        file,
-        pattern,
-      },
+      expected,
     });
-    return this;
-  }
-
-  notExpectFile(file, pattern) {
-    this._addAssertion({
-      type: 'file',
-      expected: {
-        file,
-        pattern,
-      },
-      isOpposite: true,
-    });
-    return this;
-  }
-
-
-  restore() {
-    super.restore();
-    this.fileCache = {};
     return this;
   }
 }
