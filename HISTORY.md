@@ -1,4 +1,10 @@
 
+5.1.0 / 2018-08-08
+==================
+
+**features**
+  * [[`44ded02`](http://github.com/node-modules/coffee/commit/44ded027e022a000db1e908f764c4dc3288b0f4a)] - feat: print should take a goooood look (#63) (TZ | 天猪 <<atian25@qq.com>>)
+
 5.0.1 / 2018-08-07
 ==================
 
