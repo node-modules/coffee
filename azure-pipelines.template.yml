@@ -15,7 +15,7 @@ jobs:
     displayName: 'Install Node.js'
 
   - script: |
-      npm i npminstall && npminstall
+      npm i -g npminstall && npminstall
     displayName: 'Install Packages'
   - script: |
       npm run ci
