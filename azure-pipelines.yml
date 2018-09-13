@@ -1,6 +1,12 @@
 jobs:
 - template: azure-pipelines.template.yml
   parameters:
+    name: linux_node_6
+    vmImage: 'ubuntu-16.04'
+    node_version: 6.x
+
+- template: azure-pipelines.template.yml
+  parameters:
     name: linux_node_8
     vmImage: 'ubuntu-16.04'
     node_version: 8.x
@@ -13,7 +19,13 @@ jobs:
 
 - template: azure-pipelines.template.yml
   parameters:
-    name: lmacos_node_8
+    name: macos_node_6
+    vmImage: 'xcode9-macos10.13'
+    node_version: 6.x
+
+- template: azure-pipelines.template.yml
+  parameters:
+    name: macos_node_8
     vmImage: 'xcode9-macos10.13'
     node_version: 8.x
 
@@ -22,6 +34,12 @@ jobs:
     name: macos_node_10
     vmImage: 'xcode9-macos10.13'
     node_version: 10.x
+
+- template: azure-pipelines.template.yml
+  parameters:
+    name: win_node_6
+    vmImage: 'vs2017-win2016'
+    node_version: 6.x
 
 - template: azure-pipelines.template.yml
   parameters:
