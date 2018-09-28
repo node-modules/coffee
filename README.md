@@ -11,8 +11,8 @@ Test command line on Node.js.
 
 ## Install
 
-```
-$ npm install coffee -g
+```bash
+$ npm i coffee --save
 ```
 
 ## Usage
