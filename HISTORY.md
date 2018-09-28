@@ -1,4 +1,12 @@
 
+4.2.1 / 2018-09-28
+==================
+
+  * revert: pkg (#67)
+  * fix: should throw when unexpect assert type (#66)
+  * chore: update ci
+  * chore: migrate to node-modules (#61)
+
 4.2.0 / 2018-08-01
 ==================
 
