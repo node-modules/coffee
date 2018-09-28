@@ -67,7 +67,7 @@ describe('coffee', function() {
         done('should not run here');
       });
     } catch (err) {
-      assert(err.message === 'unexpect assert type: unacceptkey');
+      assert(err.message === 'unexpect assert type: `unacceptkey`, only accept: [stdout,stderr,code,error]');
       done();
     }
   });
@@ -83,7 +83,7 @@ describe('coffee', function() {
         done('should not run here');
       });
     } catch (err) {
-      assert(err.message === 'unexpect assert type: unacceptkey');
+      assert(err.message === 'unexpect assert type: `unacceptkey`, only accept: [stdout,stderr,code,error]');
       done();
     }
   });
