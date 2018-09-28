@@ -1,3 +1,5 @@
+'use strict';
+
 const mm = require('mm');
 const os = require('os');
 

@@ -16,17 +16,17 @@ describe('coffee', function() {
   it('should pass cmd and method', function() {
     assert.throws(function() {
       new Coffee();
-    }, 'should specify method and cmd');
+    }, /should specify method and cmd/);
     assert.throws(function() {
       new Coffee({
         cmd: 'echo',
       });
-    }, 'should specify method and cmd');
+    }, /should specify method and cmd/);
     assert.throws(function() {
       new Coffee({
         method: 'spawn',
       });
-    }, 'should specify method and cmd');
+    }, /should specify method and cmd/);
   });
 
   it('should not call write after call end', function(done) {
@@ -56,14 +56,36 @@ describe('coffee', function() {
     }, 1000);
   });
 
-  it('should ignore specified expect key', function(done) {
-    new Coffee({
-      method: 'fork',
-      cmd: path.join(fixtures, 'stdout-stderr.js'),
-    })
-      .expect('unacceptkey', '1')
-      .notExpect('unacceptkey', '1')
-      .end(done);
+  it('should throw unexpect key', function(done) {
+    try {
+      new Coffee({
+        method: 'fork',
+        cmd: path.join(fixtures, 'stdout-stderr.js'),
+      })
+        .expect('unacceptkey', '1')
+        .end(function() {
+          done('should not run here');
+        });
+    } catch (err) {
+      assert(err.message === 'unexpect assert type: `unacceptkey`, only accept: [stdout,stderr,code,error]');
+      done();
+    }
+  });
+
+  it('should throw unexpect key when notExpect', function(done) {
+    try {
+      new Coffee({
+        method: 'fork',
+        cmd: path.join(fixtures, 'stdout-stderr.js'),
+      })
+        .notExpect('unacceptkey', '1')
+        .end(function() {
+          done('should not run here');
+        });
+    } catch (err) {
+      assert(err.message === 'unexpect assert type: `unacceptkey`, only accept: [stdout,stderr,code,error]');
+      done();
+    }
   });
 
   it('should set the callback of the latest end method', function(done) {
