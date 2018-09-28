@@ -1,4 +1,10 @@
 
+3.3.3 / 2018-09-28
+==================
+
+  * fix: should throw when unexpect assert type (#65)
+  * chore: publishConfig
+
 3.3.2 / 2017-05-22
 ==================
 
