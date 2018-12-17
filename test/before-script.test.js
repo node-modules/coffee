@@ -18,6 +18,20 @@ describe('coffee.beforeScript()', () => {
       .end();
   });
 
+  it('beforeScript should not change process.execArgv', done => {
+    const cmd = path.join(fixtures, 'cli.js');
+    process.execArgv = [];
+    coffee.fork(cmd)
+      .beforeScript(mockScript)
+      .debug()
+      .expect('stdout', /homedir = \/some\/home\/dir/)
+      .expect('code', 0)
+      .end(() => {
+        assert(process.execArgv.length === 0);
+        done();
+      });
+  });
+
   it('should add before hook script on non-shebang cli script', () => {
     const cmd = path.join(fixtures, 'cli-no-shebang.js');
     return coffee.fork(cmd)
