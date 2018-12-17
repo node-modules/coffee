@@ -1,4 +1,10 @@
 
+5.1.1 / 2018-12-17
+==================
+
+**fixes**
+  * [[`6b4f81c`](http://github.com/node-modules/coffee/commit/6b4f81c40f34fb3ed3bc76496368cf9088a230fc)] - fix: beforeScript should not change process.execArgv (#69) (DiamondYuan <<541832074@qq.com>>)
+
 5.1.0 / 2018-08-08
 ==================
 
