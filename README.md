@@ -120,23 +120,23 @@ Check file.
 ```js
 coffee.fork('/path/to/file.js', [ 'args' ])
   // expect README.md to be exists
-  .expectFile(`${tmpDir}/README.md`)
+  .expect('file', `${tmpDir}/README.md`)
 
   // check with `includes`
-  .expectFile(`${tmpDir}/README.md`, 'this is a desc')
+  .expect('file', `${tmpDir}/README.md`, 'this is a desc')
 
   // check with regex
-  .expectFile(`${tmpDir}/README.md`, /desc/)
+  .expect('file', `${tmpDir}/README.md`, /desc/)
 
   // support array
-  .expectFile(`${tmpDir}/README.md`, [ 'this is a desc', /desc/ ])
+  .expect('file', `${tmpDir}/README.md`, [ 'this is a desc', /desc/ ])
 
   // check whether contains
-  .expectFile(`${tmpDir}/package.json`, { name: 'example' })
+  .expect('file', `${tmpDir}/package.json`, { name: 'example' })
 
   // opposite assertion
-  .notExpectFile(`${tmpDir}/not-exist`)
-  .notExpectFile(`${tmpDir}/README.md`, 'sth')
+  .notExpect('file', `${tmpDir}/not-exist`)
+  .notExpect('file', `${tmpDir}/README.md`, 'sth')
   .end();
 ```
 
