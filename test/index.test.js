@@ -14,9 +14,8 @@ const tmpDir = path.join(fixtures, '.tmp');
 
 describe('coffee', () => {
 
-  beforeEach(async () => {
-    await rimraf(tmpDir);
-    await mkdirp(tmpDir);
+  beforeEach(() => {
+    return rimraf(tmpDir).then(() => mkdirp(tmpDir));
   });
 
   after(() => rimraf(tmpDir));
