@@ -3,8 +3,8 @@
 const fs = require('fs');
 const Rule = require('../../..').Rule;
 
-class FileRule extends Rule {
-  // expect('file', 'package.json')
+class CustomRule extends Rule {
+  // expect('custom', 'package.json')
   assert(actual, expected) {
     return super.assert(fs.existsSync(expected), true, `should exists file ${expected}`);
   }
@@ -14,4 +14,4 @@ class FileRule extends Rule {
   }
 }
 
-module.exports = FileRule;
+module.exports = CustomRule;

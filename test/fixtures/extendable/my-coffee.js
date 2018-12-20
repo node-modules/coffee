@@ -1,21 +1,22 @@
 'use strict';
 
 const Coffee = require('../../..').Coffee;
-const FileRule = require('./rule_file');
+const CustomRule = require('./rule_custom');
 
 class MyCoffee extends Coffee {
 
   constructor(...args) {
     super(...args);
-    this.setRule('file', FileRule);
+    this.setRule('custom', CustomRule);
   }
 
-  expectFile(expected) {
-    this._addAssertion({
-      type: 'file',
-      expected,
+  static fork(modulePath, args, opt) {
+    return new MyCoffee({
+      method: 'fork',
+      cmd: modulePath,
+      args,
+      opt,
     });
-    return this;
   }
 }
 

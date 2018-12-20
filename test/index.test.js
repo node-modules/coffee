@@ -4,14 +4,22 @@ const assert = require('assert');
 const path = require('path');
 const spy = require('spy');
 const mm = require('mm');
+const { mkdirp, rimraf } = require('mz-modules');
 const coffee = require('..');
 const show = require('../lib/show');
 const Coffee = coffee.Coffee;
 
 const fixtures = path.join(__dirname, 'fixtures');
+const tmpDir = path.join(fixtures, '.tmp');
 
 describe('coffee', () => {
 
+  beforeEach(async () => {
+    await rimraf(tmpDir);
+    await mkdirp(tmpDir);
+  });
+
+  after(() => rimraf(tmpDir));
   afterEach(mm.restore);
 
   it('should pass cmd and method', () => {
@@ -191,6 +199,16 @@ describe('coffee', () => {
       });
   });
 
+  it('should support pass execArgv', () => {
+    return coffee.fork(path.join(fixtures, 'stdout-stderr.js'), [], { execArgv: [ '--inspect' ] })
+      .debug()
+      .expect('stdout', /write to stdout/)
+      .expect('stderr', /stderr/)
+      .expect('stderr', /Debugger listening/)
+      .expect('code', 0)
+      .end();
+  });
+
   describe('fork', () => {
     run('fork');
 
@@ -270,26 +288,19 @@ describe('coffee', () => {
   });
 
   describe('extendable', () => {
-    function fork(cmd, args, opt) {
-      const MyCoffee = require('./fixtures/extendable/my-coffee');
-      return new MyCoffee({
-        method: 'fork',
-        cmd,
-        args,
-        opt,
-      });
-    }
+    const MyCoffee = require('./fixtures/extendable/my-coffee');
 
     it('should work', done => {
-      fork(path.join(fixtures, 'stdout-stderr.js'))
-        .expectFile(path.join(fixtures, 'README.md'))
+      MyCoffee.fork(path.join(fixtures, 'stdout-stderr.js'))
+        .expect('custom', path.join(fixtures, 'README.md'))
+        .notExpect('custom', path.join(fixtures, 'not-exist'))
         .end(done);
     });
 
-    it('should throw expectFile exist', done => {
+    it('should throw when not expect', done => {
       const file = path.join(fixtures, 'no-exist');
-      fork(path.join(fixtures, 'stdout-stderr.js'))
-        .expectFile(file)
+      MyCoffee.fork(path.join(fixtures, 'stdout-stderr.js'))
+        .expect('custom', file)
         .end(err => {
           assert(!!err);
           console.log(err.message);
@@ -458,8 +469,20 @@ function run(type) {
       .end(done);
   });
 
-  it.skip('should receive arguments', () => {
-
+  it('should assert file', done => {
+    call('file.js')
+      .debug()
+      .expect('file', `${tmpDir}/package.json`)
+      .expect('file', `${tmpDir}/package.json`, { name: 'rule_file' })
+      .expect('file', `${tmpDir}/package.json`, [{ name: 'rule_file' }, { version: '1.0.0' }])
+      .expect('file', `${tmpDir}/README.md`, 'hello')
+      .expect('file', `${tmpDir}/README.md`, /hello/)
+      .expect('file', `${tmpDir}/README.md`, [ 'hello', /world/ ])
+      .notExpect('file', `${tmpDir}/no-exist.json`)
+      .notExpect('file', `${tmpDir}/README.md`, 'some')
+      .notExpect('file', `${tmpDir}/README.md`, /some/)
+      .notExpect('file', `${tmpDir}/README.md`, [ 'some', /some/ ])
+      .end(done);
   });
 
   it('should expect after end', done => {
