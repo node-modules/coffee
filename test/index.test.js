@@ -334,6 +334,16 @@ describe('coffee', () => {
     assert(show([ 1, 2, 3 ]) === '[1,2,3](Array)');
     assert(show(1 === '1(Number)'));
   });
+
+  it('should compile ts without error', () => {
+    return coffee.fork(
+      require.resolve('typescript/bin/tsc'),
+      [ '-p', path.resolve(__dirname, './fixtures/ts/tsconfig.json') ]
+    )
+      .debug()
+      .expect('code', 0)
+      .end();
+  });
 });
 
 function run(type) {
