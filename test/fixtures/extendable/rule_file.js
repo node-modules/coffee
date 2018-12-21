@@ -4,7 +4,7 @@ const assert = require('assert');
 const fs = require('fs');
 const is = require('is-type-of');
 const isMatch = require('lodash.ismatch');
-const Rule = require('./rule');
+const Rule = require('../../..').Rule;
 
 class FileRule extends Rule {
   constructor(opts) {

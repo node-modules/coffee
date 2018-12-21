@@ -10,15 +10,9 @@ const show = require('../lib/show');
 const Coffee = coffee.Coffee;
 
 const fixtures = path.join(__dirname, 'fixtures');
-const tmpDir = path.join(fixtures, '.tmp');
 
 describe('coffee', () => {
 
-  beforeEach(() => {
-    return rimraf(tmpDir).then(() => mkdirp(tmpDir));
-  });
-
-  after(() => rimraf(tmpDir));
   afterEach(mm.restore);
 
   it('should pass cmd and method', () => {
@@ -287,7 +281,14 @@ describe('coffee', () => {
   });
 
   describe('extendable', () => {
+    const tmpDir = path.join(fixtures, '.tmp');
     const MyCoffee = require('./fixtures/extendable/my-coffee');
+
+    beforeEach(() => {
+      return rimraf(tmpDir).then(() => mkdirp(tmpDir));
+    });
+
+    after(() => rimraf(tmpDir));
 
     it('should work', done => {
       MyCoffee.fork(path.join(fixtures, 'stdout-stderr.js'))
@@ -306,6 +307,22 @@ describe('coffee', () => {
           assert(`should exists file ${file}` === err.message);
           done();
         });
+    });
+
+    it('should assert file', done => {
+      MyCoffee.fork(path.join(fixtures, 'file.js'))
+        .debug()
+        .expect('file', `${tmpDir}/package.json`)
+        .expect('file', `${tmpDir}/package.json`, { name: 'rule_file' })
+        .expect('file', `${tmpDir}/package.json`, [{ name: 'rule_file' }, { version: '1.0.0' }])
+        .expect('file', `${tmpDir}/README.md`, 'hello')
+        .expect('file', `${tmpDir}/README.md`, /hello/)
+        .expect('file', `${tmpDir}/README.md`, [ 'hello', /world/ ])
+        .notExpect('file', `${tmpDir}/no-exist.json`)
+        .notExpect('file', `${tmpDir}/README.md`, 'some')
+        .notExpect('file', `${tmpDir}/README.md`, /some/)
+        .notExpect('file', `${tmpDir}/README.md`, [ 'some', /some/ ])
+        .end(done);
     });
   });
 
@@ -465,22 +482,6 @@ function run(type) {
       .expect('error', /ENOENT/)
       .expect('error', 'spawn ' + cmd + ' ENOENT')
       .expect('error', new Error('spawn ' + cmd + ' ENOENT'))
-      .end(done);
-  });
-
-  it('should assert file', done => {
-    call('file.js')
-      .debug()
-      .expect('file', `${tmpDir}/package.json`)
-      .expect('file', `${tmpDir}/package.json`, { name: 'rule_file' })
-      .expect('file', `${tmpDir}/package.json`, [{ name: 'rule_file' }, { version: '1.0.0' }])
-      .expect('file', `${tmpDir}/README.md`, 'hello')
-      .expect('file', `${tmpDir}/README.md`, /hello/)
-      .expect('file', `${tmpDir}/README.md`, [ 'hello', /world/ ])
-      .notExpect('file', `${tmpDir}/no-exist.json`)
-      .notExpect('file', `${tmpDir}/README.md`, 'some')
-      .notExpect('file', `${tmpDir}/README.md`, /some/)
-      .notExpect('file', `${tmpDir}/README.md`, [ 'some', /some/ ])
       .end(done);
   });
 

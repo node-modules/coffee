@@ -92,7 +92,7 @@ coffee.spawn('cat')
 
 ### code
 
-Check the exist code.
+Check the exit code.
 
 ```js
 coffee.fork('/path/to/file.js', [ 'args' ])
@@ -113,33 +113,6 @@ coffee.fork('/path/to/file.js', [ 'args' ])
   .end();
 ```
 
-### file
-
-Check file.
-
-```js
-coffee.fork('/path/to/file.js', [ 'args' ])
-  // expect README.md to be exists
-  .expect('file', `${tmpDir}/README.md`)
-
-  // check with `includes`
-  .expect('file', `${tmpDir}/README.md`, 'this is a desc')
-
-  // check with regex
-  .expect('file', `${tmpDir}/README.md`, /desc/)
-
-  // support array
-  .expect('file', `${tmpDir}/README.md`, [ 'this is a desc', /desc/ ])
-
-  // check whether contains
-  .expect('file', `${tmpDir}/package.json`, { name: 'example' })
-
-  // opposite assertion
-  .notExpect('file', `${tmpDir}/not-exist`)
-  .notExpect('file', `${tmpDir}/README.md`, 'sth')
-  .end();
-```
-
 ### custom
 
 Support custom rules, see `test/fixtures/extendable` for more details.
@@ -147,7 +120,7 @@ Support custom rules, see `test/fixtures/extendable` for more details.
 ```js
 const { Coffee, Rule } = require('coffee');
 
-class CustomRule extends Rule {
+class FileRule extends Rule {
   constructor(opts) {
     super(opts);
     // `args` is which pass to `expect(type, ...args)`, `expected` is the first args.
@@ -163,7 +136,7 @@ class CustomRule extends Rule {
 class MyCoffee extends Coffee {
   constructor(...args) {
     super(...args);
-    this.setRule('custom', CustomRule);
+    this.setRule('file', FileRule);
   }
 
   static fork(modulePath, args, opt) {
@@ -218,11 +191,10 @@ coffee.spawn('echo', [ 'abcdefg' ])
   .expect('stdout', 'abcdefg')
   .expect('stdout', /^abc/)
   .expect('stdout', [ 'abcdefg', /abc/ ])
-  .expect('file', `${tmpDir}/package.json`, { name: 'rule_file' })
-  .end(done);
+  .end();
 ```
 
-Accept type: `stdout`, `stderr`, `code`, `error`, `file`, see built-in rule above.
+Accept type: `stdout` / `stderr` / `code` / `error`, see built-in rules description above.
 
 #### coffee.notExpect(type, ...args)
 
