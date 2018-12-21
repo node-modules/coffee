@@ -92,7 +92,28 @@ The opposite assertion of `expect`.
 
 #### coffee.write(data)
 
-Write data to stdin, see example above.
+Write data to stdin.
+
+```js
+coffee.fork(path.join(fixtures, 'stdin.js'))
+  .write('1\n')
+  .write('2')
+  .expect('stdout', '1\n2')
+  .end();
+```
+
+#### coffee.writeKey(...args)
+
+Write special key sequence to stdin, support `UP` / `DOWN` / `LEFT` / `RIGHT` / `ENTER` / `SPACE`.
+
+All args will join as one key.
+
+```js
+coffee.fork(path.join(fixtures, 'stdin.js'))
+  .writeKey('1', 'ENTER', '2')
+  .expect('stdout', '1\n2')
+  .end();
+```
 
 #### coffee.waitForPrompt(bool)
 
@@ -102,7 +123,8 @@ If you set false, coffee will write stdin immediately, otherwise will wait for `
 coffee.fork('/path/to/cli', [ 'abcdefg' ])
   .waitForPrompt()
   .write('tz\n')
-  .write('2\n');
+  // choose the second item
+  .writeKey('DOWN', 'DOWN', 'ENTER');
   .end(done);
 ```
 

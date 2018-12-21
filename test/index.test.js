@@ -203,12 +203,22 @@ describe('coffee', () => {
         .end(done);
     });
 
+    it('should receive data from stdin with special key', done => {
+      coffee.fork(path.join(fixtures, 'stdin.js'))
+        .writeKey('1')
+        .writeKey('ENTER')
+        .writeKey('2', 'ENTER', '3')
+        .expect('stdout', '1\n2\n3')
+        .expect('code', 0)
+        .end(done);
+    });
+
     it('should write data when receive message', done => {
       coffee.fork(path.join(fixtures, 'prompt.js'))
         // .debug()
         .waitForPrompt()
         .write('tz\n')
-        .write('2\n')
+        .writeKey('2', 'ENTER')
         .expect('stdout', 'What\'s your name? hi, tz\nHow many coffee do you want? here is your 2 coffee\n')
         .expect('code', 0)
         .end(done);
