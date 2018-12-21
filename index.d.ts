@@ -1,11 +1,12 @@
 import { EventEmitter } from 'events';
 import { ForkOptions, SpawnOptions } from 'child_process';
+import { Readable } from 'stream';
 
 export interface RuleOpt {
   ctx: any;
   type: string;
   expected: ExpectedType | ExpectedType[];
-  args?: string[];
+  args?: any[];
   isOpposite?: boolean;
 }
 
@@ -17,10 +18,17 @@ export class Rule {
   inspectObj(obj: any): string;
 }
 
+export interface Result {
+  stdout: Buffer;
+  stderr: Buffer;
+  code: number;
+  error: Error;
+}
+
 export interface CoffeeOpt<T> {
   method: string;
   cmd: string;
-  args?: string[];
+  args?: any[];
   opt?: T;
 }
 
@@ -29,7 +37,7 @@ export type ExpectedType = number | string | RegExp;
 export class Coffee<T = any> extends EventEmitter {
   method: string;
   cmd: string;
-  args?: string[];
+  args?: any[];
   opt?: T;
   constructor(opt: CoffeeOpt<T>);
   debug(level?: number | boolean): this;
@@ -37,20 +45,20 @@ export class Coffee<T = any> extends EventEmitter {
   /**
    * Assert type with expected value
    *
-   * @param {String} type - assertion rule type
+   * @param {String} type - assertion rule type, can be `code`,`stdout`,`stderr`,`error`.
    * @param {Array} args - spread args, the first item used to be a test value `{Number|String|RegExp|Array} expected`
    * @return {Coffee} return self for chain
    */
-  expect(type: string, ...args: Array<ExpectedType | ExpectedType[]>): this;
+  expect(type: string, ...args: any[]): this;
 
    /**
    * Assert type with not expected value, opposite assertion of `expect`.
    *
-   * @param {String} type - assertion rule type
+   * @param {String} type - assertion rule type, can be `code`,`stdout`,`stderr`,`error`.
    * @param {Array} args - spread args, the first item used to be a test value `{Number|String|RegExp|Array} expected`
    * @return {Coffee} return self for chain
    */
-  notExpect(type: string, ...args: Array<ExpectedType | ExpectedType[]>): this;
+  notExpect(type: string, ...args: any[]): this;
 
   /**
    * allow user to custom rule
@@ -89,14 +97,14 @@ export class Coffee<T = any> extends EventEmitter {
    *
    * @param {Function} [cb] - callback, recommended to left undefind and use promise
    */
-  end(cb: (e?: Error, result?: any) => any): void;
+  end(cb: (e: Error | undefined, result: Result) => any): void;
 
   /**
    * get `end` hook
    *
    * @return {Promise} - end promise
    */
-  end(): Promise<any>;
+  end(): Promise<Result>;
 
    /**
    * inject script file for mock purpose

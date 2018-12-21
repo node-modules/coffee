@@ -28,6 +28,10 @@ new Coffee({
     }
 
     console.info(result);
+    console.info(result.stdout.toString());
+    console.info(result.stderr.toString());
+    console.info(result.code);
+    console.info(result.error.message);
   });
 
 new Coffee({
@@ -41,6 +45,10 @@ new Coffee({
   .end()
   .then(result => {
     console.info(result);
+    console.info(result.stdout.toString());
+    console.info(result.stderr.toString());
+    console.info(result.code);
+    console.info(result.error.message);
   })
   .catch(e => {
     console.error(e);
