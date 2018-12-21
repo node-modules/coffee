@@ -6,7 +6,7 @@ export interface RuleOpt {
   ctx: any;
   type: string;
   expected: ExpectedType | ExpectedType[];
-  args?: any[];
+  args?: string[];
   isOpposite?: boolean;
 }
 
@@ -19,16 +19,16 @@ export class Rule {
 }
 
 export interface Result {
-  stdout: Buffer;
-  stderr: Buffer;
+  stdout: string;
+  stderr: string;
   code: number;
-  error: Error;
+  error: Error | null;
 }
 
 export interface CoffeeOpt<T> {
   method: string;
   cmd: string;
-  args?: any[];
+  args?: string[];
   opt?: T;
 }
 
@@ -37,7 +37,7 @@ export type ExpectedType = number | string | RegExp;
 export class Coffee<T = any> extends EventEmitter {
   method: string;
   cmd: string;
-  args?: any[];
+  args?: string[];
   opt?: T;
   constructor(opt: CoffeeOpt<T>);
   debug(level?: number | boolean): this;
@@ -49,7 +49,7 @@ export class Coffee<T = any> extends EventEmitter {
    * @param {Array} args - spread args, the first item used to be a test value `{Number|String|RegExp|Array} expected`
    * @return {Coffee} return self for chain
    */
-  expect(type: string, ...args: any[]): this;
+  expect(type: string, ...args: Array<ExpectedType | ExpectedType[]>): this;
 
    /**
    * Assert type with not expected value, opposite assertion of `expect`.
@@ -58,7 +58,7 @@ export class Coffee<T = any> extends EventEmitter {
    * @param {Array} args - spread args, the first item used to be a test value `{Number|String|RegExp|Array} expected`
    * @return {Coffee} return self for chain
    */
-  notExpect(type: string, ...args: any[]): this;
+  notExpect(type: string, ...args: Array<ExpectedType | ExpectedType[]>): this;
 
   /**
    * allow user to custom rule

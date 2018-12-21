@@ -28,10 +28,10 @@ new Coffee({
     }
 
     console.info(result);
-    console.info(result.stdout.toString());
-    console.info(result.stderr.toString());
+    console.info(result.stdout);
+    console.info(result.stderr);
     console.info(result.code);
-    console.info(result.error.message);
+    console.info(result.error && result.error.message);
   });
 
 new Coffee({
@@ -45,10 +45,10 @@ new Coffee({
   .end()
   .then(result => {
     console.info(result);
-    console.info(result.stdout.toString());
-    console.info(result.stderr.toString());
+    console.info(result.stdout);
+    console.info(result.stderr);
     console.info(result.code);
-    console.info(result.error.message);
+    console.info(result.error && result.error.message);
   })
   .catch(e => {
     console.error(e);
