@@ -19,28 +19,22 @@ $ npm i coffee --save-dev
 
 Coffee is useful for test command line in test frammework (like Mocha).
 
-```js
-describe('cat', function() {
-  it('should concat input', function(done) {
-    const coffee = require('coffee');
-    coffee.spawn('cat')
-      .write('1')
-      .write('2')
-      .expect('stdout', '12')
-      .expect('code', 0)
-      .end(done);
-  })
-})
-```
+### Fork
 
-You can also use fork for spawning Node processes.
+You can use `fork` for spawning Node processes.
 
 ```js
-coffee.fork('/path/to/file.js', [ 'args' ])
-  .expect('stdout', '12\n')
-  .expect('stderr', '34\n')
-  .expect('code', 0)
-  .end(done);
+const coffee = require('coffee');
+
+describe('cli', () => {
+  it('should fork node cli', () => {
+    return coffee.fork('/path/to/file.js')
+    .expect('stdout', '12\n')
+    .expect('stderr', '34\n')
+    .expect('code', 0)
+    .end();
+  });
+});
 ```
 
 In file.js
@@ -48,6 +42,122 @@ In file.js
 ```js
 console.log(12);
 console.error(34);
+```
+
+You can pass `args` and `opts` to [child_process fork](https://nodejs.org/api/child_process.html#child_process_child_process_fork_modulepath_args_options).
+
+```js
+coffee.fork('/path/to/file.js', [ 'args' ], { execArgv: [ '--inspect' ]})
+  .expect('stdout', '12\n')
+  .expect('stderr', '34\n')
+  .expect('code', 0)
+  .end();
+```
+
+And more:
+
+```js
+coffee.fork('/path/to/file.js')
+  // print origin stdio
+  .debug()
+
+  // inject a script
+  .beforeScript(mockScript)
+
+  // interact with prompt
+  .waitForPrompt()
+  .write('tz\n')
+
+  .expect('stdout', '12\n')
+  .expect('code', 0)
+  .end();
+```
+
+see the API chapter below for more details.
+
+### Spwan
+
+You can also use `spawn` for spawning normal shell scripts.
+
+```js
+coffee.spawn('cat')
+  .write('1')
+  .write('2')
+  .expect('stdout', '12')
+  .expect('code', 0)
+  .end();
+```
+
+## Rule
+
+### code
+
+Check the exit code.
+
+```js
+coffee.fork('/path/to/file.js', [ 'args' ])
+  .expect('code', 0)
+  // .expect('code', 1)
+  .end();
+```
+
+### stdout / stderr
+
+Check the stdout and stderr.
+
+```js
+coffee.fork('/path/to/file.js', [ 'args' ])
+  .expect('stdout', '12\n')
+  .expect('stderr', '34\n')
+  .expect('code', 0)
+  .end();
+```
+
+### custom
+
+Support custom rules, see `test/fixtures/extendable` for more details.
+
+```js
+const { Coffee, Rule } = require('coffee');
+
+class FileRule extends Rule {
+  constructor(opts) {
+    super(opts);
+    // `args` is which pass to `expect(type, ...args)`, `expected` is the first args.
+    const { args, expected } = opts;
+  }
+
+  assert(actual, expected, message) {
+    // do sth
+    return super.assert(fs.existsSync(expected), true, `should exists file ${expected}`);
+  }
+}
+
+class MyCoffee extends Coffee {
+  constructor(...args) {
+    super(...args);
+    this.setRule('file', FileRule);
+  }
+
+  static fork(modulePath, args, opt) {
+    return new MyCoffee({
+      method: 'fork',
+      cmd: modulePath,
+      args,
+      opt,
+    });
+  }
+}
+```
+
+Usage:
+
+```js
+// test/custom.test.js
+const coffee = require('MyCoffee');
+coffee.fork('/path/to/file.js', [ 'args' ])
+  .expect('file', `${root}/README.md`);
+  .notExpect('file', `${root}/not-exist`);
 ```
 
 ## Support multiple process coverage with nyc
@@ -72,7 +182,7 @@ Arguments see [child_process.fork](http://nodejs.org/api/child_process.html#chil
 
 Assertion object
 
-#### coffee.expect(type, expected)
+#### coffee.expect(type, ...args)
 
 Assert type with expected value, expected value can be string, regular expression, and array.
 
@@ -81,12 +191,12 @@ coffee.spawn('echo', [ 'abcdefg' ])
   .expect('stdout', 'abcdefg')
   .expect('stdout', /^abc/)
   .expect('stdout', [ 'abcdefg', /abc/ ])
-  .end(done);
+  .end();
 ```
 
-Accept type: `stdout`, `stderr`, `code`, `error`
+Accept type: `stdout` / `stderr` / `code` / `error`, see built-in rules description above.
 
-#### coffee.notExpect(type, expected)
+#### coffee.notExpect(type, ...args)
 
 The opposite assertion of `expect`.
 
@@ -152,7 +262,7 @@ ask('What\'s your name? ', answer => {
 });
 ```
 
-#### coffee.end(callback)
+#### coffee.end([callback])
 
 Callback will be called after completing the assertion, the first argument is Error if throw exception.
 
@@ -161,7 +271,7 @@ coffee.fork('path/to/cli')
   .expect('stdout', 'abcdefg')
   .end(done);
 
-// recommended to left undefind and use promise.
+// recommended to left undefind and use promise style.
 const { stdout, stderr, code } = await coffee.fork('path/to/cli').end();
 assert(stdout.includes(abcdefg));
 ```
@@ -189,38 +299,7 @@ Add a hook script before fork child process run.
 
 ### coffee.Rule
 
-Assertion Rule
-
-you could add your custom rule, see `test/fixtures/extendable` for more details.
-
-```js
-const { Coffee, Rule } = require('coffee');
-
-class FileRule extends Rule {
-  assert(actual, expected, message) {
-    // do sth
-    return super.assert(fs.existsSync(expected), true, `should exists file ${expected}`);
-  }
-}
-
-class MyCoffee extends Coffee {
-  constructor(...args) {
-    super(...args);
-    this.setRule('file', FileRule);
-  }
-
-  expectFile(expected) {
-    this._addAssertion({
-      type: 'file',
-      expected,
-    });
-    return this;
-  }
-}
-
-// Usage
-.expectFile('README.md');
-```
+Assertion Rule base class.
 
 ## LISENCE
 
