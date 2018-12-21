@@ -1,4 +1,10 @@
 
+5.2.0 / 2018-12-21
+==================
+
+  * feat: pass additional args to rule && improve docs && d.ts (#70)
+  * feat: support writeKey (#71)
+
 5.1.1 / 2018-12-17
 ==================
 

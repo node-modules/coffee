@@ -1,6 +1,6 @@
 {
   "name": "coffee",
-  "version": "5.1.1",
+  "version": "5.2.0",
   "description": "Test command line on Node.js.",
   "main": "index.js",
   "dependencies": {
@@ -43,7 +43,7 @@
     "node": ">= 6.0.0"
   },
   "ci": {
-    "version": "6, 8, 10"
+    "version": "6, 8, 10, 11"
   },
   "scripts": {
     "autod": "autod",
