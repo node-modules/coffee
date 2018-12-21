@@ -30,7 +30,7 @@ describe('cli', () => {
   it('should fork node cli', () => {
     return coffee.fork('/path/to/file.js')
     .expect('stdout', '12\n')
-    .expect('stderr', '34\n')
+    .expect('stderr', /34/)
     .expect('code', 0)
     .end();
   });
@@ -68,7 +68,12 @@ coffee.fork('/path/to/file.js')
   .waitForPrompt()
   .write('tz\n')
 
-  .expect('stdout', '12\n')
+  // string strict equals
+  .expect('stdout', 'abcdefg')
+  // regex
+  .expect('stdout', /^abc/)
+  // multiple
+  .expect('stdout', [ 'abcdefg', /abc/ ])
   .expect('code', 0)
   .end();
 ```
