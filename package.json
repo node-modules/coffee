@@ -13,6 +13,7 @@
     "autod": "^3.0.1",
     "egg-bin": "^4.8.1",
     "egg-ci": "^1.11.0",
+    "enquirer": "^2.2.0",
     "eslint": "^5.10.0",
     "eslint-config-egg": "^7.1.0",
     "lodash.ismatch": "^4.4.0",

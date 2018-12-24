@@ -235,6 +235,17 @@ describe('coffee', () => {
         .end(done);
     });
 
+    it.only('should support prompt enquirer', () => {
+      return coffee.fork(path.join(fixtures, 'prompt-enquirer.js'))
+        .debug()
+        .waitForPrompt()
+        .write('tz\n')
+        .writeKey('DOWN', 'ENTER')
+        .expect('stdout', '{ name: \'tz\', color: \'grape\' }')
+        .expect('code', 0)
+        .end();
+    });
+
     it('should fork with autoCoverage = true', done => {
       coffee.fork(path.join(fixtures, 'stdin.js'), null, {
         autoCoverage: true,
