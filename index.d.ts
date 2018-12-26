@@ -127,6 +127,15 @@ export class Coffee<T = any> extends EventEmitter {
 export function fork(modulePath: string, args?: string[], opt?: ForkOptions): Coffee<ForkOptions>;
 
 /**
+ * fork a child process to test
+ * @param {String} modulePath - The module to run in the child
+ * @param {Object} opt - fork options
+ * @see https://nodejs.org/api/child_process.html#child_process_child_process_fork_modulepath_args_options
+ * @return {Coffee} coffee instance
+ */
+export function fork(modulePath: string, opt?: ForkOptions): Coffee<ForkOptions>;
+
+/**
  * spawn a child process to test
  * @param  {String} cmd - The command to run
  * @param  {Array} args - List of string arguments
@@ -134,3 +143,11 @@ export function fork(modulePath: string, args?: string[], opt?: ForkOptions): Co
  * @return {Coffee} coffee instance
  */
 export function spawn(modulePath: string, args?: string[], opt?: SpawnOptions): Coffee<SpawnOptions>;
+
+/**
+ * spawn a child process to test
+ * @param  {String} cmd - The command to run
+ * @param  {Object} opt - spawn options
+ * @return {Coffee} coffee instance
+ */
+export function spawn(modulePath: string, opt?: SpawnOptions): Coffee<SpawnOptions>;
