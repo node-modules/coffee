@@ -2,6 +2,7 @@
 
 const Coffee = require('./lib/coffee');
 const Rule = require('./lib/rule');
+const is = require('is-type-of');
 
 exports.Coffee = Coffee;
 exports.Rule = Rule;
@@ -15,6 +16,11 @@ exports.Rule = Rule;
  * @return {Coffee} coffee instance
  */
 exports.fork = function(modulePath, args, opt) {
+  // fork('/path/to/cli', { execArgv: [] })
+  if (!opt && !is.array(args)) {
+    opt = args;
+    args = undefined;
+  }
   return new Coffee({
     method: 'fork',
     cmd: modulePath,
@@ -31,6 +37,11 @@ exports.fork = function(modulePath, args, opt) {
  * @return {Coffee} coffee instance
  */
 exports.spawn = function(cmd, args, opt) {
+  // fork('/path/to/cli', { execArgv: [] })
+  if (!opt && !is.array(args)) {
+    opt = args;
+    args = undefined;
+  }
   return new Coffee({
     method: 'spawn',
     cmd,
