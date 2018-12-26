@@ -1,6 +1,7 @@
 'use strict';
 
 const Coffee = require('./lib/coffee');
+const is = require('is-type-of');
 const Rule = require('./lib/rule');
 
 exports.Coffee = Coffee;
@@ -15,6 +16,11 @@ exports.Rule = Rule;
  * @return {Coffee} coffee instance
  */
 exports.fork = function(modulePath, args, opt) {
+  // fork('/path/to/cli', { execArgv: [] })
+  if (!opt && !is.array(args)) {
+    opt = args;
+    args = undefined;
+  }
   return new Coffee({
     method: 'fork',
     cmd: modulePath,
@@ -31,6 +37,11 @@ exports.fork = function(modulePath, args, opt) {
  * @return {Coffee} coffee instance
  */
 exports.spawn = function(cmd, args, opt) {
+  // spawn('/path/to/cli', { execArgv: [] })
+  if (!opt && !is.array(args)) {
+    opt = args;
+    args = undefined;
+  }
   return new Coffee({
     method: 'spawn',
     cmd,
