@@ -19,16 +19,26 @@ describe('coffee', () => {
     assert.throws(() => {
       new Coffee();
     }, /should specify method and cmd/);
+
     assert.throws(() => {
       new Coffee({
         cmd: 'echo',
       });
     }, /should specify method and cmd/);
+
     assert.throws(() => {
       new Coffee({
         method: 'spawn',
       });
     }, /should specify method and cmd/);
+
+    assert.throws(() => {
+      new Coffee({
+        method: 'fork',
+        cmd: path.join(fixtures, 'stdout-stderr.js'),
+        opt: { cwd: __dirname + '/not-exists' },
+      });
+    }, /opt.cwd.*not exists/);
   });
 
   it('should not call write after call end', done => {
@@ -549,12 +559,24 @@ function run(type) {
     assert(c.coverage() === c);
   });
 
-  function call(filepath) {
+  it('should assert opt.cwd', function* () {
+    try {
+      yield call('stdout-stderr', [], { cwd: __dirname + '/not-exists' })
+        .debug()
+        .expect('error', /ENOENT/)
+        .end();
+      throw new Error('should not run here');
+    } catch (err) {
+      assert(err.message.match(/opt.cwd.*not exist/));
+    }
+  });
+
+  function call(filepath, ...args) {
     if (!path.extname(filepath)) {
       let ext = type === 'fork' ? '.js' : '.sh';
       if (process.platform === 'win32') ext = '.js';
       filepath += ext;
     }
-    return coffee[type](path.join(fixtures, filepath));
+    return coffee[type](path.join(fixtures, filepath), ...args);
   }
 }
