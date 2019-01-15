@@ -306,7 +306,7 @@ Add a hook script before fork child process run.
 
 Assertion Rule base class.
 
-## LISENCE
+## LICENSE
 
 Copyright (c) 2017 - 2019 node-modules. Licensed under the MIT license.
 
