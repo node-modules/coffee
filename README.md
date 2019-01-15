@@ -308,6 +308,6 @@ Assertion Rule base class.
 
 ## LISENCE
 
-Copyright (c) 2017 node-modules. Licensed under the MIT license.
+Copyright (c) 2017 - 2019 node-modules. Licensed under the MIT license.
 
 [nyc]: https://github.com/istanbuljs/nyc
