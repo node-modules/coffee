@@ -43,7 +43,7 @@
     "node": ">= 6.0.0"
   },
   "ci": {
-    "version": "6, 8, 10, 11"
+    "version": "6, 8, 10, 12"
   },
   "scripts": {
     "autod": "autod",
