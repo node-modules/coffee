@@ -102,6 +102,7 @@ describe('coffee', () => {
   });
 
   it('should .debug(1)', done => {
+    require('events').EventEmitter.defaultMaxListeners = 15;
     let stdout = '';
     let stderr = '';
     const stderrWrite = process.stderr.write;
