@@ -1,4 +1,13 @@
 
+5.2.2 / 2019-07-30
+==================
+
+**fixes**
+  * [[`afc4372`](http://github.com/node-modules/coffee/commit/afc4372f250f75124e7dc403d8a1cf7eca19e68b)] - fix: should kill child when coffee exit (#78) (TZ | 天猪 <<atian25@qq.com>>)
+
+**others**
+  * [[`1a6b20f`](http://github.com/node-modules/coffee/commit/1a6b20fa222430109fb2bcfdd650f3831a8b6559)] - docs: update license (#75) (维特 <<nanazuimeng123@gmail.com>>)
+
 5.2.1 / 2018-12-27
 ==================
 
