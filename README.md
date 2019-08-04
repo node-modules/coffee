@@ -267,6 +267,32 @@ ask('What\'s your name? ', answer => {
 });
 ```
 
+### coffee.timeout(ms)
+
+Kill the child process after timeout, then trigger `coffee.end()`.
+
+```js
+coffee.fork(path.join(fixtures, 'message.js'))
+  .timeout(1000)
+  .expect('stdout', /start event/)
+  .notExpect('stdout', /still alive/)
+  .expect('code', 0);
+```
+
+#### coffee.waitForMessage(msg)
+
+Wait for child process message, then trigger `coffee.end()`.
+
+Use for a long-time process, and you want to assert when it's ready.
+
+```js
+coffee.fork(path.join(fixtures, 'message.js'))
+  .waitForMessage('egg-ready')
+  .expect('stdout', /egg-ready event/)
+  .notExpect('stdout', /after message/)
+  .expect('code', 0);
+```
+
 #### coffee.end([callback])
 
 Callback will be called after completing the assertion, the first argument is Error if throw exception.

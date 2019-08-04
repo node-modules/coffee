@@ -246,6 +246,35 @@ describe('coffee', () => {
         .end(done);
     });
 
+    it('should waitForMessage', done => {
+      coffee.fork(path.join(fixtures, 'message.js'))
+        // .debug()
+        .waitForMessage('egg-ready')
+        .expect('stdout', /egg-ready event/)
+        .notExpect('stdout', /after message/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('should wait for end when waitForMessage is not set', done => {
+      coffee.fork(path.join(fixtures, 'message.js'))
+        // .debug()
+        .expect('stdout', /egg-ready event/)
+        .expect('stdout', /after message/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('kill proc when timeout', done => {
+      coffee.fork(path.join(fixtures, 'timeout.js'))
+        // .debug()
+        .timeout(1000)
+        .expect('stdout', /start event/)
+        .notExpect('stdout', /still alive/)
+        .expect('code', 0)
+        .end(done);
+    });
+
     it('should fork with autoCoverage = true', done => {
       coffee.fork(path.join(fixtures, 'stdin.js'), null, {
         autoCoverage: true,
