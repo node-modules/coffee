@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { ForkOptions, SpawnOptions } from 'child_process';
+import { ForkOptions, SpawnOptions, ChildProcess } from 'child_process';
 import { Readable } from 'stream';
 
 export interface RuleOpt {
@@ -23,6 +23,7 @@ export interface Result {
   stderr: string;
   code: number;
   error: Error | null;
+  proc: ChildProcess | null;
 }
 
 export interface CoffeeOpt<T> {
@@ -91,6 +92,14 @@ export class Coffee<T = any> extends EventEmitter {
    * @return {Coffee} return self for chain
    */
   waitForPrompt(enable?: boolean): this;
+
+  /**
+   * when child_process message emit, will resolve `end()`
+   *
+   * @param {String} msg - message
+   * @return {Coffee} return self for chain
+   */
+  waitForMessage(msg: string): this;
 
   /**
    * get `end` hook

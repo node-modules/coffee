@@ -267,18 +267,6 @@ ask('What\'s your name? ', answer => {
 });
 ```
 
-### coffee.timeout(ms)
-
-Kill the child process after timeout, then trigger `coffee.end()`.
-
-```js
-coffee.fork(path.join(fixtures, 'message.js'))
-  .timeout(1000)
-  .expect('stdout', /start event/)
-  .notExpect('stdout', /still alive/)
-  .expect('code', 0);
-```
-
 #### coffee.waitForMessage(msg)
 
 Wait for child process message, then trigger `coffee.end()`.

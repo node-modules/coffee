@@ -265,16 +265,6 @@ describe('coffee', () => {
         .end(done);
     });
 
-    it('kill proc when timeout', done => {
-      coffee.fork(path.join(fixtures, 'timeout.js'))
-        // .debug()
-        .timeout(1000)
-        .expect('stdout', /start event/)
-        .notExpect('stdout', /still alive/)
-        .expect('code', 0)
-        .end(done);
-    });
-
     it('should fork with autoCoverage = true', done => {
       coffee.fork(path.join(fixtures, 'stdin.js'), null, {
         autoCoverage: true,
@@ -568,7 +558,10 @@ function run(type) {
       .expect('stderr', 'stderr\n')
       .expect('code', 0)
       .end()
-      .then(() => done())
+      .then(result => {
+        assert(result.proc);
+        done();
+      })
       .catch(done);
   });
 
@@ -580,6 +573,7 @@ function run(type) {
       .end()
       .catch(function(err) {
         assert(err);
+        assert(err.proc);
         done();
       });
   });

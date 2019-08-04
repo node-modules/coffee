@@ -10,7 +10,7 @@ setTimeout(() => {
   console.log('egg-ready event');
   process.send('egg-ready');
 
-  setTimeout(() => {
+  setInterval(() => {
     console.log('after message');
   }, 2000);
 }, 1000);
