@@ -1,4 +1,10 @@
 
+5.3.0 / 2020-04-22
+==================
+
+**features**
+  * [[`462c583`](http://github.com/node-modules/coffee/commit/462c5837246a9b4d0fd757f4982f1c3cafb95ce4)] - feat: support on event (#80) (TZ | 天猪 <<atian25@qq.com>>)
+
 5.2.2 / 2019-07-30
 ==================
 
