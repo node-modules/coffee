@@ -582,16 +582,16 @@ function run(type) {
       .catch(done);
   });
 
-  it.only('use event to kill', done => {
+  it('use event to kill', done => {
     call('long-run')
-      .debug()
-      .on('stdout', function (buf) {
+      // .debug()
+      .on('stdout', function(buf) {
         if (buf.toString().includes('egg-ready')) {
-          console.log('kill')
+          this.proc.exitCode = 0;
           this.proc.kill();
         }
       })
-      .expect('stdout', /hi\negg-ready/)
+      .expect('stdout', /egg-ready/)
       .expect('code', 0)
       .end(done);
   });

@@ -1,9 +1,9 @@
 'use strict';
 
-setTimeout(() => {
-  console.log('egg-ready');
-}, 500);
+let i = 0;
 
 setInterval(() => {
-  console.log('hi');
+  i++;
+  if (i === 10) console.log('egg-ready');
+  console.log('hi', i);
 }, 100);
