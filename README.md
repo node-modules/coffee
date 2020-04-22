@@ -281,6 +281,21 @@ const { stdout, stderr, code } = await coffee.fork('path/to/cli').end();
 assert(stdout.includes(abcdefg));
 ```
 
+#### coffee.on(event, callback)
+
+Emit `stdout/stderr` event.
+
+```js
+coffee.fork('path/to/cli')
+  .on('stdout', function (buf) {
+    if (buf.toString().includes('egg-ready')) {
+      this.proc.kill();
+    }
+  })
+  .expect('stdout', 'egg-ready')
+  .end(done);
+```
+
 #### coffee.debug(level)
 
 Write data to process.stdout and process.stderr for debug

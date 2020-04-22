@@ -533,7 +533,7 @@ function run(type) {
       });
   });
 
-  it.only('should support promise', done => {
+  it('should support promise', done => {
     call('stdout-stderr')
       .expect('stdout', 'write to stdout\n')
       .expect('stderr', 'stderr\n')
@@ -546,7 +546,7 @@ function run(type) {
       .catch(done);
   });
 
-  it.only('should support promise when error', done => {
+  it('should support promise when error', done => {
     call('stdout-stderr')
       .expect('stdout', 'write to stdout\n')
       .expect('stderr', 'stderr\n')
@@ -557,6 +557,43 @@ function run(type) {
         assert(err.proc);
         done();
       });
+  });
+
+  it('should support on()', done => {
+    let hasStdout;
+    let hasStderr;
+    call('stdout-stderr')
+      .on('stdout', function(buf) {
+        hasStdout = !!buf && !!this.proc;
+      })
+      .on('stderr', function(buf) {
+        hasStderr = !!buf && !!this.proc;
+      })
+      .expect('stdout', 'write to stdout\n')
+      .expect('stderr', 'stderr\n')
+      .expect('code', 0)
+      .end()
+      .then(result => {
+        assert(result.proc);
+        assert(hasStdout);
+        assert(hasStderr);
+        done();
+      })
+      .catch(done);
+  });
+
+  it.only('use event to kill', done => {
+    call('long-run')
+      .debug()
+      .on('stdout', function (buf) {
+        if (buf.toString().includes('egg-ready')) {
+          console.log('kill')
+          this.proc.kill();
+        }
+      })
+      .expect('stdout', /hi\negg-ready/)
+      .expect('code', 0)
+      .end(done);
   });
 
   it('should return this when call coverage', () => {
