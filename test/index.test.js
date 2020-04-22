@@ -539,7 +539,10 @@ function run(type) {
       .expect('stderr', 'stderr\n')
       .expect('code', 0)
       .end()
-      .then(() => done())
+      .then(result => {
+        assert(result.proc);
+        done();
+      })
       .catch(done);
   });
 
@@ -551,8 +554,46 @@ function run(type) {
       .end()
       .catch(function(err) {
         assert(err);
+        assert(err.proc);
         done();
       });
+  });
+
+  it('should support on()', done => {
+    let hasStdout;
+    let hasStderr;
+    call('stdout-stderr')
+      .on('stdout', function(buf) {
+        hasStdout = !!buf && !!this.proc;
+      })
+      .on('stderr', function(buf) {
+        hasStderr = !!buf && !!this.proc;
+      })
+      .expect('stdout', 'write to stdout\n')
+      .expect('stderr', 'stderr\n')
+      .expect('code', 0)
+      .end()
+      .then(result => {
+        assert(result.proc);
+        assert(hasStdout);
+        assert(hasStderr);
+        done();
+      })
+      .catch(done);
+  });
+
+  it('use event to kill', done => {
+    call('long-run')
+      // .debug()
+      .on('stdout', function(buf) {
+        if (buf.toString().includes('egg-ready')) {
+          this.proc.exitCode = 0;
+          this.proc.kill();
+        }
+      })
+      .expect('stdout', /egg-ready/)
+      .expect('code', 0)
+      .end(done);
   });
 
   it('should return this when call coverage', () => {
