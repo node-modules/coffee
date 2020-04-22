@@ -533,17 +533,20 @@ function run(type) {
       });
   });
 
-  it('should support promise', done => {
+  it.only('should support promise', done => {
     call('stdout-stderr')
       .expect('stdout', 'write to stdout\n')
       .expect('stderr', 'stderr\n')
       .expect('code', 0)
       .end()
-      .then(() => done())
+      .then(result => {
+        assert(result.proc);
+        done();
+      })
       .catch(done);
   });
 
-  it('should support promise when error', done => {
+  it.only('should support promise when error', done => {
     call('stdout-stderr')
       .expect('stdout', 'write to stdout\n')
       .expect('stderr', 'stderr\n')
@@ -551,6 +554,7 @@ function run(type) {
       .end()
       .catch(function(err) {
         assert(err);
+        assert(err.proc);
         done();
       });
   });
