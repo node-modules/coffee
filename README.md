@@ -287,9 +287,9 @@ Emit `stdout/stderr` event.
 
 ```js
 coffee.fork('path/to/cli')
-  .on('stdout', function (buf) {
-    if (buf.toString().includes('egg-ready')) {
-      this.proc.kill();
+  .on('stdout', (buf, instance) => {
+    if (buf.includes('egg-ready')) {
+      instance.proc.kill();
     }
   })
   .expect('stdout', 'egg-ready')
