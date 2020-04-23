@@ -260,6 +260,20 @@ describe('coffee', () => {
         .end(done);
     });
 
+    it('use event to kill', done => {
+      coffee.fork(path.join(fixtures, 'long-run.js'))
+        // .debug()
+        .on('stdout', (buf, { proc }) => {
+          if (buf.toString().includes('egg-ready')) {
+            proc.exitCode = 0;
+            proc.kill();
+          }
+        })
+        .expect('stdout', /egg-ready/)
+        .expect('code', 0)
+        .end(done);
+    });
+
     it('should fork with autoCoverage = true', done => {
       coffee.fork(path.join(fixtures, 'stdin.js'), null, {
         autoCoverage: true,
@@ -594,20 +608,6 @@ function run(type) {
         done();
       })
       .catch(done);
-  });
-
-  it('use event to kill', done => {
-    call('long-run')
-      // .debug()
-      .on('stdout', (buf, instance) => {
-        if (buf.toString().includes('egg-ready')) {
-          instance.proc.exitCode = 0;
-          instance.proc.kill();
-        }
-      })
-      .expect('stdout', /egg-ready/)
-      .expect('code', 0)
-      .end(done);
   });
 
   it('should return this when call coverage', () => {
