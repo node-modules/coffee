@@ -1,4 +1,10 @@
 
+5.4.0 / 2020-04-28
+==================
+
+**features**
+  * [[`62c2d11`](http://github.com/node-modules/coffee/commit/62c2d1104af9944ae1c05ca1b4280c3f21ff222e)] - feat: pass instance to event (#81) (TZ | 天猪 <<atian25@qq.com>>)
+
 5.3.0 / 2020-04-22
 ==================
 
