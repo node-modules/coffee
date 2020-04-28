@@ -235,6 +235,20 @@ describe('coffee', () => {
         .end(done);
     });
 
+    it('should write at event', done => {
+      coffee.fork(path.join(fixtures, 'prompt-without-message.js'))
+        .on('stdout', (buf, instance) => {
+          if (buf.includes('What\'s your name?')) {
+            instance.proc.stdin.write('tz\n');
+          } else if (buf.includes('How many coffee do you want?')) {
+            instance.proc.stdin.write('2\n');
+          }
+        })
+        .expect('stdout', 'What\'s your name? hi, tz\nHow many coffee do you want? here is your 2 coffee\n')
+        .expect('code', 0)
+        .end(done);
+    });
+
     it('should write data when receive message', done => {
       coffee.fork(path.join(fixtures, 'prompt.js'))
         // .debug()
@@ -242,6 +256,20 @@ describe('coffee', () => {
         .write('tz\n')
         .writeKey('2', 'ENTER')
         .expect('stdout', 'What\'s your name? hi, tz\nHow many coffee do you want? here is your 2 coffee\n')
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('use event to kill', done => {
+      coffee.fork(path.join(fixtures, 'long-run.js'))
+        // .debug()
+        .on('stdout', (buf, { proc }) => {
+          if (buf.toString().includes('egg-ready')) {
+            proc.exitCode = 0;
+            proc.kill();
+          }
+        })
+        .expect('stdout', /egg-ready/)
         .expect('code', 0)
         .end(done);
     });
@@ -563,11 +591,11 @@ function run(type) {
     let hasStdout;
     let hasStderr;
     call('stdout-stderr')
-      .on('stdout', function(buf) {
-        hasStdout = !!buf && !!this.proc;
+      .on('stdout', (buf, instance) => {
+        hasStdout = !!buf && !!instance.proc;
       })
-      .on('stderr', function(buf) {
-        hasStderr = !!buf && !!this.proc;
+      .on('stderr', (buf, instance) => {
+        hasStderr = !!buf && !!instance.proc;
       })
       .expect('stdout', 'write to stdout\n')
       .expect('stderr', 'stderr\n')
@@ -580,20 +608,6 @@ function run(type) {
         done();
       })
       .catch(done);
-  });
-
-  it('use event to kill', done => {
-    call('long-run')
-      // .debug()
-      .on('stdout', function(buf) {
-        if (buf.toString().includes('egg-ready')) {
-          this.proc.exitCode = 0;
-          this.proc.kill();
-        }
-      })
-      .expect('stdout', /egg-ready/)
-      .expect('code', 0)
-      .end(done);
   });
 
   it('should return this when call coverage', () => {

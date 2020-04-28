@@ -243,7 +243,9 @@ coffee.fork('/path/to/cli', [ 'abcdefg' ])
   .end(done);
 ```
 
-cli process should emit `prompt` message:
+**cli process should emit `prompt` message:**
+
+> Or use `coffee.on('stdout', callback)` instead, see docs below.
 
 ```js
 const readline = require('readline');
@@ -285,14 +287,31 @@ assert(stdout.includes(abcdefg));
 
 Emit `stdout/stderr` event.
 
+use for kill long-run process:
+
 ```js
 coffee.fork('path/to/cli')
-  .on('stdout', function (buf) {
-    if (buf.toString().includes('egg-ready')) {
-      this.proc.kill();
+  .on('stdout', (buf, { proc }) => {
+    if (buf.includes('egg-ready')) {
+      proc.exitCode = 0;
+      proc.kill();
     }
   })
   .expect('stdout', 'egg-ready')
+  .end(done);
+```
+
+use for prompt:
+
+```js
+// do not call `waitForPrompt` / `write` / `writeKey`
+coffee.fork('path/to/cli')
+  .on('stdout', (buf, { proc }) => {
+    if (buf.includes('Your Name: ')) {
+      proc.stdin.write('TZ\n');
+    }
+  })
+  .expect('stdout', 'Your Name: TZ\n')
   .end(done);
 ```
 
