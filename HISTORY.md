@@ -1,4 +1,10 @@
 
+5.5.0 / 2022-11-22
+==================
+
+**features**
+  * [[`915c6f6`](http://github.com/node-modules/coffee/commit/915c6f6347dd02bd374370bc2cd64c9170971b77)] - 📦 NEW: Support includes assert (#83) (fengmk2 <<fengmk2@gmail.com>>)
+
 5.4.0 / 2020-04-28
 ==================
 
