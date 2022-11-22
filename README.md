@@ -205,6 +205,23 @@ Accept type: `stdout` / `stderr` / `code` / `error`, see built-in rules descript
 
 The opposite assertion of `expect`.
 
+#### coffee.includes(type, ...args)
+
+Assert type with expected string value, expected value should be string only.
+
+```js
+coffee.spawn('echo', [ 'abcdefg' ])
+  .includes('stdout', 'abc')
+  .expect('stdout', [ 'abc', 'efg' ])
+  .end();
+```
+
+Accept type: `stdout` / `stderr`, see built-in rules description above.
+
+#### coffee.notIncludes(type, ...args)
+
+The opposite assertion of `includes`.
+
 #### coffee.write(data)
 
 Write data to stdin.

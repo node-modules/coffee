@@ -1,7 +1,7 @@
 'use strict';
 
-const Coffee = require('./lib/coffee');
 const is = require('is-type-of');
+const Coffee = require('./lib/coffee');
 const Rule = require('./lib/rule');
 
 exports.Coffee = Coffee;
