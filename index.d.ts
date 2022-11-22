@@ -1,6 +1,5 @@
 import { EventEmitter } from 'events';
 import { ForkOptions, SpawnOptions, ChildProcess } from 'child_process';
-import { Readable } from 'stream';
 
 export interface RuleOpt {
   ctx: any;
@@ -62,12 +61,30 @@ export class Coffee<T = any> extends EventEmitter {
   notExpect(type: string, ...args: Array<ExpectedType | ExpectedType[]>): this;
 
   /**
+   * Assert type with expected string value
+   *
+   * @param {String} type - assertion rule type, can be `code`,`stdout`,`stderr`,`error`.
+   * @param {Array<String>} args - spread args, the first item used to be a test value `{String} expected`
+   * @return {Coffee} return self for chain
+   */
+   includes(type: string, ...args: Array<string | string[]>): this;
+
+   /**
+   * Assert type with not expected string value, opposite assertion of `notIncludes`.
+   *
+   * @param {String} type - assertion rule type, can be `code`,`stdout`,`stderr`,`error`.
+   * @param {Array} args - spread args, the first item used to be a test value `{String} expected`
+   * @return {Coffee} return self for chain
+   */
+  notIncludes(type: string, ...args: Array<string | string[]>): this;
+
+  /**
    * allow user to custom rule
    * @param {String} type - rule type
    * @param {Rule} RuleClz - custom rule class
    * @protected
    */
-  setRule(type: string, RuleClz: typeof Rule);
+  setRule(type: string, RuleClz: typeof Rule): undefined;
 
   /**
    * Write data to stdin of the command

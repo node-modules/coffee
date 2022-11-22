@@ -1,5 +1,3 @@
-'use strict';
-
 const assert = require('assert');
 const path = require('path');
 const spy = require('spy');
@@ -522,6 +520,59 @@ function run(type) {
         .end(done);
     });
 
+  });
+
+  describe('includes', () => {
+    it('should includes stdout, stderr', done => {
+      call('stdout-stderr')
+        .includes('stdout', 'write to ')
+        .includes('stderr', 'stderr')
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('should not includes', done => {
+      call('stdout-stderr')
+        .includes('stdout', 'stderr')
+        .end(function(err) {
+          assert(err);
+          assert(
+            err.message === 'should match stdout expected includes `stderr(String)` but actual `write to stdout\\n(String)`'
+          );
+          done();
+        });
+    });
+
+    it('should includes with Array<String>', done => {
+      call('stdout-stderr')
+        .includes('stdout', [ 'write', 'to stdout' ])
+        .end(done);
+    });
+  });
+
+  describe('notIncludes', () => {
+    it('should includes stdout', done => {
+      call('stdout-stderr')
+        .notIncludes('stdout', 'write to')
+        .end(function(err) {
+          assert(
+            err.message === 'should not match stdout expected includes `write to(String)` but actual `write to stdout\\n(String)`'
+          );
+          done();
+        });
+    });
+
+    it('should not includes stdout', done => {
+      call('stdout-stderr')
+        .notIncludes('stdout', 'stderr')
+        .end(done);
+    });
+
+    it('should not includes with Array<String>', done => {
+      call('stdout-stderr')
+        .notIncludes('stdout', [ 'nothing' ])
+        .end(done);
+    });
   });
 
   it('should assert error', done => {

@@ -3,6 +3,11 @@
   "version": "5.4.0",
   "description": "Test command line on Node.js.",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "lib",
+    "index.d.ts"
+  ],
   "dependencies": {
     "cross-spawn": "^6.0.5",
     "debug": "^4.1.0",
@@ -10,18 +15,18 @@
   },
   "devDependencies": {
     "@types/node": "^10.12.18",
-    "autod": "^3.0.1",
-    "egg-bin": "^4.8.1",
-    "egg-ci": "^1.11.0",
-    "eslint": "^5.10.0",
-    "eslint-config-egg": "^7.1.0",
+    "egg-bin": "^5.5.0",
+    "egg-ci": "^2.2.0",
+    "eslint": "^8.28.0",
+    "eslint-config-egg": "^12.1.0",
     "lodash.ismatch": "^4.4.0",
-    "mm": "^2.4.1",
-    "mocha": "^5.2.0",
+    "mm": "^3.2.1",
+    "mocha": "^10.1.0",
     "mz-modules": "^2.1.0",
     "nyc": "^11.0.2",
     "spy": "^1.0.0",
-    "typescript": "^3.2.2"
+    "tsd": "^0.24.1",
+    "typescript": "^4.9.3"
   },
   "repository": {
     "type": "git",
@@ -43,20 +48,14 @@
     "node": ">= 6.0.0"
   },
   "ci": {
-    "version": "6, 8, 10, 12",
-    "type": "travis, github"
+    "version": "14, 16, 18",
+    "os": "linux"
   },
   "scripts": {
-    "autod": "autod",
     "lint": "eslint .",
-    "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
-    "test-local": "egg-bin test",
-    "cov": "egg-bin cov",
-    "ci": "npm run lint && egg-bin pkgfiles --check && npm run cov"
-  },
-  "files": [
-    "index.js",
-    "index.d.ts",
-    "lib"
-  ]
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "tsd && egg-bin test",
+    "cov": "tsd && egg-bin cov",
+    "ci": "npm run lint && npm run cov"
+  }
 }
