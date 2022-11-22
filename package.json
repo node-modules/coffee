@@ -25,6 +25,7 @@
     "mz-modules": "^2.1.0",
     "nyc": "^11.0.2",
     "spy": "^1.0.0",
+    "tsd": "^0.24.1",
     "typescript": "^4.9.3"
   },
   "repository": {
@@ -52,9 +53,9 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
-    "test-local": "egg-bin test",
-    "cov": "egg-bin cov",
-    "ci": "npm run lint && egg-bin pkgfiles --check && npm run cov"
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "tsd && egg-bin test",
+    "cov": "tsd && egg-bin cov",
+    "ci": "npm run lint && npm run cov"
   }
 }
