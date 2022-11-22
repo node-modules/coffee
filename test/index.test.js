@@ -564,7 +564,7 @@ function run(type) {
 
     it('should not includes stdout', done => {
       call('stdout-stderr')
-        .notIncludes('stdout', 'stdout')
+        .notIncludes('stdout', 'stderr')
         .end(done);
     });
 

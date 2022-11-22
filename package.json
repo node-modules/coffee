@@ -5,8 +5,8 @@
   "main": "index.js",
   "files": [
     "index.js",
-    "index.d.ts",
-    "lib"
+    "lib",
+    "index.d.ts"
   ],
   "dependencies": {
     "cross-spawn": "^6.0.5",
