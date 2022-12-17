@@ -16,7 +16,6 @@
   "devDependencies": {
     "@types/node": "^10.12.18",
     "egg-bin": "^5.5.0",
-    "egg-ci": "^2.2.0",
     "eslint": "^8.28.0",
     "eslint-config-egg": "^12.1.0",
     "lodash.ismatch": "^4.4.0",
@@ -46,10 +45,6 @@
   "license": "MIT",
   "engines": {
     "node": ">= 6.0.0"
-  },
-  "ci": {
-    "version": "14, 16, 18",
-    "os": "linux"
   },
   "scripts": {
     "lint": "eslint .",
