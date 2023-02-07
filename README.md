@@ -80,7 +80,7 @@ coffee.fork('/path/to/file.js')
 
 see the API chapter below for more details.
 
-### Spwan
+### Spawn
 
 You can also use `spawn` for spawning normal shell scripts.
 
