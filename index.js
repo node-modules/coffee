@@ -42,6 +42,7 @@ exports.spawn = function(cmd, args, opt) {
     opt = args;
     args = undefined;
   }
+
   return new Coffee({
     method: 'spawn',
     cmd,
