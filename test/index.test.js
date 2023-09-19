@@ -315,6 +315,18 @@ describe('coffee', () => {
         .expect('code', 0)
         .end(done);
     });
+
+    it('should success', done => {
+      mm(Object.prototype, 'shell', 'node');
+
+      coffee.spawn('cat')
+      // .debug()
+        .write('1\n')
+        .write('2')
+        .expect('stdout', '1\n2')
+        .expect('code', 0)
+        .end(done);
+    });
   });
 
   describe('extendable', () => {
